@@ -41,9 +41,9 @@ $recipes = Recipe::find_all();
         <td><?php echo h($recipe->recipe_name); ?></td>
         <td><?php echo h($recipe->instructions); ?></td>
         <td><?php echo h($recipe->cooking_time); ?></td>
-        <td><?php echo h($recipe->difficulty); ?></td>
-        <td><?php echo h($recipe->cuisine_type); ?></td>
-        <td><?php echo h($recipe->meal_type); ?></td>
+        <td><?php echo h(Difficulty::DIFFICULTY_OPTIONS[$recipe->difficulty]); ?></td>
+        <td><?php echo h(Cuisine::CUISINE_OPTIONS[$recipe->cuisine_type]); ?></td>
+        <td><?php echo h(MealType::MEAL_OPTIONS[$recipe->meal_type]); ?></td>
         <td><a href="detail.php?id=<?php echo $recipe->id; ?>">View</a></td>
         <td><a href="edit.php?id=<?php echo $recipe->id; ?>">Edit</a></td>
         <td><a href="<?php echo url_for('delete.php?id=' . h(u($recipe->id))); ?>">Delete</a></td>

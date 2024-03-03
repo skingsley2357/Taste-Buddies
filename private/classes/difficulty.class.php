@@ -1,6 +1,6 @@
 <?php
 
-class Difficulty extends DatabaseObjects{
+class Difficulty extends DatabaseObject{
 
   static protected $table_name = 'difficulty';
   static protected $db_columns = ['difficulty_id', 'difficulty_name'];
@@ -22,7 +22,7 @@ class Difficulty extends DatabaseObjects{
 
   public function difficulty() {
     if($this->difficulty_id > 0) {
-      return self::difficulty_OPTIONS[$this->difficulty_id];
+      return self::DIFFICULTY_OPTIONS[$this->difficulty_id];
     } else {
       return "Unknown";
     }

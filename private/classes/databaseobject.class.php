@@ -76,7 +76,7 @@ class DatabaseObject {
     $sql .= "')";
     $result = self::$database->query($sql);
     if($result) {
-      $this->id = self::$database->insert_id;
+      $this->user_id = self::$database->insert_id;
     }
     return $result;
   }

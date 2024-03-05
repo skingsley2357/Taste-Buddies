@@ -20,7 +20,7 @@
             <li><a href="<?php echo url_for('logout.php'); ?>">Logout</a></li>
           <?php } else { ?>
             <li><a href="<?php echo url_for('login.php'); ?>">Log In</a></li>
-            <li><a href="<?php echo url_for('new.php'); ?>">Sign Up</a></li>
+            <li><a href="<?php echo url_for('users/new.php'); ?>">Sign Up</a></li>
           <?php }?>
         </ul>
       </nav>

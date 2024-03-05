@@ -12,7 +12,7 @@ if(is_post_request()) {
 
   // Validations
   if(is_blank($user_name)) {
-    $errors[] = "user_name cannot be blank.";
+    $errors[] = "Username cannot be blank.";
   }
   if(is_blank($password)) {
     $errors[] = "Password cannot be blank.";

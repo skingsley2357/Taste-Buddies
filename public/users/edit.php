@@ -4,10 +4,10 @@ require_once('../../private/initialize.php');
 
 require_login();
 
-if(!isset($_GET['user_id'])) {
+if(!isset($_GET['id'])) {
   redirect_to(url_for('/users/index.php'));
 }
-$user_id = $_GET['user_id'];
+$user_id = $_GET['id'];
 $user = user::find_by_id($user_id);
 if($user == false) {
   redirect_to(url_for('/users/index.php'));

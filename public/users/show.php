@@ -4,10 +4,10 @@
 
 require_login();
 
-$user_id = $_GET['user_id'] ?? '1'; // PHP > 7.0
+$user_id = $_GET['id'] ?? '1'; // PHP > 7.0
 
 $user = User::find_by_id($user_id);
-
+var_dump($_GET);
 ?>
 
 <?php $page_title = 'Show user: ' . h($user->user_name); ?>
@@ -27,7 +27,7 @@ $user = User::find_by_id($user_id);
         <dd><?php echo h($user->email); ?></dd>
       </dl>
       <dl>
-        <dt>user_name</dt>
+        <dt>Username</dt>
         <dd><?php echo h($user->user_name); ?></dd>
       </dl>
     </div>

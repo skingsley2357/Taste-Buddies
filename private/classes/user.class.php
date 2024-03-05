@@ -67,7 +67,7 @@ class User extends DatabaseObject {
       if(is_blank($this->password)) {
         $this->errors[] = "Password cannot be blank.";
       } elseif (!has_length($this->password, array('min' => 8))) {
-        $this->errors[] = "Password must contain 12 or more characters";
+        $this->errors[] = "Password must contain 8 or more characters";
       } elseif (!preg_match('/[A-Z]/', $this->password)) {
         $this->errors[] = "Password must contain at least 1 uppercase letter";
       } elseif (!preg_match('/[a-z]/', $this->password)) {

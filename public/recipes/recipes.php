@@ -44,9 +44,11 @@ $recipes = Recipe::find_all();
         <td><?php echo h(Difficulty::DIFFICULTY_OPTIONS[$recipe->difficulty]); ?></td>
         <td><?php echo h(Cuisine::CUISINE_OPTIONS[$recipe->cuisine_type]); ?></td>
         <td><?php echo h(MealType::MEAL_OPTIONS[$recipe->meal_type]); ?></td>
-        <td><a href="detail.php?id=<?php echo $recipe->id; ?>">View</a></td>
-        <td><a href="edit.php?id=<?php echo $recipe->id; ?>">Edit</a></td>
-        <td><a href="<?php echo url_for('delete.php?id=' . h(u($recipe->id))); ?>">Delete</a></td>
+        <td><a href="detail.php?id=<?php echo $recipe->recipe_id; ?>">View</a></td>
+        <?php if ($session->is_admin == 2) : ?>
+        <td><a href="edit.php?id=<?php echo $recipe->recipe_id; ?>">Edit</a></td>
+        <td><a href="<?php echo url_for('delete.php?id=' . h(u($recipe->recipe_id))); ?>">Delete</a></td>
+        <?php endif ?>
       </tr>
       <?php } ?>
 

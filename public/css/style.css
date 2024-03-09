@@ -43,6 +43,46 @@ header nav a {
   text-decoration: none;
 }
 
+
+/** Home **/
+
+#home-h1 {
+  color: #4E342E;
+  font-family: "Damion", cursive;
+  font-size: 80px;
+  font-weight: 100;
+  margin: 1rem auto;
+  text-align: center;
+}
+
+#home {
+  background-color: #fff;
+  border-radius: 25px;
+  box-shadow: 6px 6px 10px #00000040;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  font-family: "Delius Swash Caps", cursive;
+  font-size: 20px;
+  margin: 45px auto;
+  max-width: 1090px;
+  padding: 0;
+  width: 80%;
+}
+
+#home p {
+  align-self: center;
+  justify-self: center;
+  padding: 2rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+#home img {
+  justify-self: end;
+  border-radius: 0px 25px 25px 0px;
+}
+
+
 /** About Us **/
 #about_us {
   background-color: #fff;
@@ -97,6 +137,14 @@ footer h1 {
   margin: 0;
 }
 
+
+/*** MEDIA QUERIES ***/
+
+@media (min-width: 1194px) {
+  #home {
+    font-size: calc(16px + 1.5vw); /* Adjust for a base of 20px on larger screens */
+  }
+}
 
 /***** TEMPORARY STYLES ******/
 

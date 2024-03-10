@@ -137,15 +137,6 @@ footer h1 {
   margin: 0;
 }
 
-
-/*** MEDIA QUERIES ***/
-
-@media (min-width: 1194px) {
-  #home {
-    font-size: calc(16px + 1.5vw); /* Adjust for a base of 20px on larger screens */
-  }
-}
-
 /***** TEMPORARY STYLES ******/
 
 table, th, td {

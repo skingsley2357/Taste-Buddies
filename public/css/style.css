@@ -72,31 +72,31 @@ header nav a {
 #home p {
   align-self: center;
   justify-self: center;
-  padding: 2rem;
   line-height: 1.5;
   margin: 0;
+  padding: 2rem;
 }
 
 #home img {
-  justify-self: end;
   border-radius: 0px 25px 25px 0px;
+  justify-self: end;
 }
 
 #home-recipes {
   align-items: center;
-  justify-items: center;
-  max-width: 1090px;
-  font-family: "Delius Swash Caps", cursive;
   display: grid;
+  justify-items: center;
+  font-family: "Delius Swash Caps", cursive;
   grid-template-columns: 1fr 1fr 1fr;
   margin: auto;
+  max-width: 1090px;
 }
 
 #home-recipes h2 {
-  text-align: center;
   color: #4E342E;
   font-size: 38px;
   grid-column: 1 / span 3;
+  text-align: center;
 }
 
 #home-recipes a:visited {
@@ -113,8 +113,8 @@ header nav a {
 
 .recipe-cards img{
   border-radius: 25px 25px 0px 0px;
-  width: 100%;
   height: auto;
+  width: 100%;
 }
 
 .recipe-cards p{

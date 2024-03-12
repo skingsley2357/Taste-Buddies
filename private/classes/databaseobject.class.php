@@ -44,6 +44,17 @@ class DatabaseObject {
     }
   }
 
+  static public function find_by_recipe($recipe_id) {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE recipe_id='" . self::$database->escape_string($recipe_id) . "'";
+    $obj_array = static::find_by_sql($sql);
+    if(!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
   static protected function instantiate($record) {
     $object = new static;
     // Could manually assign values to properties

@@ -3,7 +3,7 @@
   $page_title = 'Recipes';
   include(SHARED_PATH . '/public_header.php');
 ?>
-
+<div id="recipes">
 <h2>Recipes</h2>
 
 <?php if($session->is_logged_in()) { ?>
@@ -13,10 +13,9 @@
 <?php } ?>
 
     <br>
-    <table border="1">
+    <table id="recipes-table">
       <tr>
         <th>Recipe</th>
-        <th>Instructions</th>
         <th>Cooking time</th>
         <th>Difficulty</th>
         <th>Cuisine Type</th>
@@ -39,7 +38,6 @@ $recipes = Recipe::find_all();
       <?php foreach($recipes as $recipe) { ?> 
       <tr>
         <td><?php echo h($recipe->recipe_name); ?></td>
-        <td><?php echo h($recipe->instructions); ?></td>
         <td><?php echo h($recipe->cooking_time); ?></td>
         <td><?php echo h(Difficulty::DIFFICULTY_OPTIONS[$recipe->difficulty]); ?></td>
         <td><?php echo h(Cuisine::CUISINE_OPTIONS[$recipe->cuisine_type]); ?></td>
@@ -53,6 +51,6 @@ $recipes = Recipe::find_all();
       <?php } ?>
 
     </table>
-
+</div>
 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

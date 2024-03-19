@@ -42,7 +42,7 @@ if(is_post_request()) {
 
   <a class="back-link" href="<?php echo url_for('/users/index.php'); ?>">&laquo; Back to List</a>
 
-  <div class="admin edit">
+  <div id="user-edit">
     <h1>Edit user</h1>
 
     <?php echo display_errors($user->errors); ?>

@@ -17,18 +17,6 @@ if(!isset($user)) {
 </dl>
 
 <dl>
-  <dt>User Level</dt>
-  <dd>
-    <select name="user[is_admin]">
-      <option value=""></option>
-    <?php foreach(user::IS_ADMIN_OPTIONS as $level_id => $level_name) { ?>
-      <option value="<?php echo $level_id; ?>" <?php if($user->is_admin == $level_id) { echo 'selected'; } ?>><?php echo $level_name; ?></option>
-    <?php } ?>
-    </select>
-  </dd>
-</dl>
-
-<dl>
   <dt>Password</dt>
   <dd><input type="password" name="user[password]" value="" /></dd>
 </dl>

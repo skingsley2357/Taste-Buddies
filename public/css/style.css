@@ -9,14 +9,6 @@ body {
   margin: auto;
 }
 
-/* #wrapper {
-  margin: 2rem auto;
-  max-width: 1200px;
-  min-width: 320px;
-  position: relative;
-  width: 80%;
-} */
-
 /** HEADER **/
 header {
   align-items: center;
@@ -116,7 +108,7 @@ header nav a {
   border-radius: 25px;
   box-shadow: 6px 6px 10px #00000040;
   margin-bottom: 2rem;
-  width: 345px;
+  width: 95%;
 }
 
 .recipe-cards img{
@@ -178,10 +170,15 @@ header nav a {
 
 #recipes-table {
   font-family: "Quicksand", sans-serif;
+  border: 1px solid #4E342E;
   border-collapse: collapse;
   margin: auto;
-  /* position: relative; */
   padding: 0;
+}
+
+#recipes-table a {
+  color: #4E342E;
+  
 }
 
 #recipes-table th, #recipes-table td {
@@ -198,11 +195,11 @@ header nav a {
 }
 
 #recipes-table tr:nth-child(even) {
-  background-color: #FFFACD;
+  background-color: #fffacdd3;
 }
 
 /***  FORMS  ***/
-#user-signup, #user-edit {
+#content {
   align-self: center;
   margin: 1rem auto;
   width: 80%;

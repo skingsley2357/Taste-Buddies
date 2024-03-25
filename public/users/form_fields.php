@@ -13,11 +13,15 @@ if(!isset($user)) {
 
 <dl>
   <dt>User Name</dt>
+  <dd><i>User name must contain at least 8 characters</i></dd>
   <dd><input type="text" name="user[user_name]" value="<?php echo h($user->user_name); ?>" /></dd>
 </dl>
 
 <dl>
   <dt>Password</dt>
+  <dd><i>Password must contain at least 8 characters, 
+      <br>both upper and lower case letters,
+      <br>and at least 1 number and 1 special character</i></dd>
   <dd><input type="password" name="user[password]" value="" /></dd>
 </dl>
 

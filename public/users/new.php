@@ -33,7 +33,7 @@ if(is_post_request()) {
 
   <a class="back-link" href="<?php echo url_for('/users/index.php'); ?>">&laquo; Back to List</a>
 
-  <div id="user-signup">
+  
     <h1>Create user</h1>
 
     <?php echo display_errors($user->errors); ?>
@@ -47,7 +47,7 @@ if(is_post_request()) {
       </div>
     </form>
 
-  </div>
+ 
 
 </div>
 

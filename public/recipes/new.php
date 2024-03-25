@@ -2,6 +2,8 @@
 
 require_once('../../private/initialize.php');
 
+require_login();
+
 if(is_post_request()) {
 
   // Create record using post parameters
@@ -34,16 +36,7 @@ if(is_post_request()) {
   <div class="recipe new">
     <h1>Create recipe</h1>
 
-    <?php echo display_errors($recipe->errors); ?>
-
-    <form action="<?php echo url_for('new.php'); ?>" method="post">
-
-      <?php include('form_fields.php'); ?>
-
-      <div id="operations">
-        <input type="submit" value="Create recipe" />
-      </div>
-    </form>
+    <h2>Form to create new recipe will go here</h2>
 
   </div>
 

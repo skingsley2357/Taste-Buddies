@@ -1,7 +1,7 @@
 <?php require_once('../../private/initialize.php'); ?>
 <?php
 
-require_login();
+require_admin_login();
 
 // var_dump($session->user_level); // Add this line for debugging
 // var_dump($session->is_logged_in()); // Add this line for debugging

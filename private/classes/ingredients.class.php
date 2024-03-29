@@ -11,7 +11,7 @@ class Ingredients extends DatabaseObject {
   public $measurement_type;
   public $measurement_num;
 
-  public function __construct($ingredient_id, $recipe_id, $ingredient_name, $measurement_type, $measurement_num) {
+  public function __construct($ingredient_id = null, $recipe_id = null, $ingredient_name = null, $measurement_type = null, $measurement_num = null) {
     $this->ingredient_id = $ingredient_id;
     $this->recipe_id = $recipe_id;
     $this->ingredient_name = $ingredient_name;

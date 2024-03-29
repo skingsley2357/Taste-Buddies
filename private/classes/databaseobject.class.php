@@ -55,17 +55,22 @@ class DatabaseObject {
     }
   }
 
+  static function find_all_by_recipe($recipe_id) {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE recipe_id='" . self::$database->escape_string($recipe_id) . "'";
+    $obj_array = static::find_by_sql($sql);
+    return $obj_array; // Return the entire array of objects
+}
+
   static protected function instantiate($record) {
-    $object = new static;
-    // Could manually assign values to properties
-    // but automatically assignment is easier and re-usable
+    $object = new static; // Creates a new instance without using constructor arguments.
     foreach($record as $property => $value) {
-      if(property_exists($object, $property)) {
-        $object->$property = $value;
-      }
+        if(property_exists($object, $property)) {
+            $object->$property = $value; // Set properties directly based on database fields.
+        }
     }
     return $object;
-  }
+}
 
   protected function validate() {
     $this->errors = [];

@@ -36,7 +36,14 @@ if(is_post_request()) {
   <div class="recipe new">
     <h1>Create recipe</h1>
 
-    <h2>Form to create new recipe will go here</h2>
+    <form action="<?php echo url_for('/recipes/new.php'); ?>" method="post">
+
+      <?php include('form_fields.php'); ?>
+
+      <div id="operations">
+        <input type="submit" value="Create Recipe" />
+      </div>
+    </form>
 
   </div>
 

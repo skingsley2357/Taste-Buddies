@@ -22,6 +22,7 @@ if(is_post_request()) {
 } else {
   // display the form
   $recipe = new recipe;
+  $ingredients = new ingredients;
 }
 
 ?>

@@ -9,7 +9,7 @@
 
      <h1>Taste Buddies</h1>
     </footer>
-    
+    <script src="<?php echo url_for('/js/app.js'); ?>"></script>
   </body>
 </html>
 <?php

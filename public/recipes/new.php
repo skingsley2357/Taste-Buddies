@@ -14,7 +14,7 @@ if(is_post_request()) {
   if($result === true) {
     $new_id = $recipe->id;
     $_SESSION['message'] = 'The recipe was created successfully.';
-    redirect_to(url_for('show.php?id=' . $new_id));
+    redirect_to(url_for('detail.php?id=' . $new_id));
   } else {
     // show errors
   }

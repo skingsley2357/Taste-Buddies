@@ -20,7 +20,7 @@
         <th>Difficulty</th>
         <th>Cuisine Type</th>
         <th>Meal Type</th>
-        <?php if($session->is_logged_in()) { ?> 
+        <?php if($session->is_admin_logged_in()) { ?> 
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <?php } ?>

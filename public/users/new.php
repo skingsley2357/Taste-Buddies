@@ -43,7 +43,7 @@ if(is_post_request()) {
       <?php include('form_fields.php'); ?>
 
       <div id="operations">
-        <input type="submit" value="Create user" />
+        <input type="submit" value="Create user">
       </div>
     </form>
 

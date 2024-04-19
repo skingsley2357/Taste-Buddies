@@ -14,15 +14,15 @@ class Recipe extends DatabaseObject {
   public $cuisine_type;
   public $meal_type;
 
-  public function __construct($recipe_id = null, $user_id = null, $recipe_name = '', $instructions = '', $cooking_time = 0, $difficulty = '', $cuisine_type = '', $meal_type = '') {
-    $this->recipe_id = $recipe_id;
-    $this->user_id = $user_id;
-    $this->recipe_name = $recipe_name;
-    $this->instructions = $instructions;
-    $this->cooking_time = $cooking_time;
-    $this->difficulty = $difficulty;
-    $this->cuisine_type = $cuisine_type;
-    $this->meal_type = $meal_type;
+  public function __construct($args=[]) {
+    $this->recipe_id = $args['recipe_id'] ?? '';
+    $this->user_id = $args['user_id'] ?? '';
+    $this->recipe_name = $args['recipe_name'] ?? '';
+    $this->instructions = $args['instructions'] ?? '';
+    $this->cooking_time = $args['cooking_time'] ?? '';
+    $this->difficulty = $args['difficulty'] ?? '';
+    $this->cuisine_type = $args['cuisine_type'] ?? '';
+    $this->meal_type = $args['meal_type'] ?? '';
   }
 
   // public const CONSERVATION_OPTIONS = [

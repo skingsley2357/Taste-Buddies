@@ -90,9 +90,11 @@ class DatabaseObject {
     $sql .= ") VALUES ('";
     $sql .= join("', '", array_values($attributes));
     $sql .= "')";
+    // echo $sql;
+    // exit;
     $result = self::$database->query($sql);
     if($result) {
-      $this->user_id = self::$database->insert_id;
+      $this->id = self::$database->insert_id;
     }
     return $result;
   }
@@ -116,13 +118,21 @@ class DatabaseObject {
   }
 
   public function save() {
-    // A new record will not have an ID yet
-    if(isset($this->user_id)) {
-      return $this->update();
+    if(isset($this->id)) {
+        return $this->update();
     } else {
-      return $this->create();
+        return $this->create();
     }
-  }
+}
+
+public function valid_meal_type($meal_type_id) {
+    $sql = "SELECT 1 FROM meal_type WHERE meal_id = ?";
+    $stmt = self::$database->prepare($sql);
+    $stmt->bind_param("i", $meal_type_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows === 1;
+}
 
   public function merge_attributes($args=[]) {
     foreach($args as $key => $value) {
@@ -142,13 +152,20 @@ class DatabaseObject {
     return $attributes;
   }
 
-  protected function sanitized_attributes() {
+  public function sanitized_attributes() {
     $sanitized = [];
-    foreach($this->attributes() as $key => $value) {
-      $sanitized[$key] = self::$database->escape_string($value);
+    foreach ($this->attributes() as $key => $value) {
+        if (is_array($value)) {
+            // Process each element in the array
+            foreach ($value as $index => $item) {
+                $sanitized[$key][$index] = self::$database->escape_string($item);
+            }
+        } else {
+            $sanitized[$key] = self::$database->escape_string($value);
+        }
     }
     return $sanitized;
-  }
+}
 
   public function delete() {
     $sql = "DELETE FROM " . static::$table_name . " ";
@@ -157,6 +174,20 @@ class DatabaseObject {
     $result = self::$database->query($sql);
     return $result;
   }
+
+  function get_ingredient_id_by_name($ingredient_name) {
+    global $database;  // Your database connection variable
+    $sql = "SELECT Ingredient_name_id FROM ingredient_name WHERE name = ?";
+    $stmt = $database->prepare($sql);
+    $stmt->bind_param("s", $ingredient_name);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if($row = $result->fetch_assoc()) {
+        return $row['Ingredient_name_id'];
+    } else {
+        return null;
+    }
+}
 
 }
 

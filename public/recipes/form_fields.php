@@ -58,17 +58,17 @@ if(!isset($recipe)) {
     <div id="ingredientsList">
         <!-- Dynamically add ingredient inputs here -->
         <div>
-          <input type="number" name="ingredient[measurement_num]" placeholder="Quantity" required>
-          <select name="ingredient[measurement_type]" required>
+          <input type="number" name="ingredients[measurement_num][]" placeholder="Quantity" required>
+          <select name="ingredients[measurement_type][]" required>
             <option value="">Select Measurement Type</option>
-            <?php foreach(MeasurementType::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>
+            <?php foreach(Ingredients::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>
               <option value="<?php echo $measurement_id; ?>" <?php if($ingredients->measurement_type == $measurement_id) {echo 'selected'; } ?>><?php echo $measurement; ?></option>
               <?php endforeach; ?>
             </select>
-            <select id="ingredient_name" name="ingredient[ingredient_name]" required>
+            <select id="ingredient_name" name="ingredients[ingredient_name][]" required>
               <option value="">Select Ingredient</option>
-              <?php foreach(IngredientName::INGREDIENT_OPTIONS as $Ingredient_name_id => $ingredient_name): ?>
-                <option value=<?php echo $Ingredient_name_id; ?>" <?php if($ingredients->ingredient_name == $Ingredient_name_id) {echo 'selected'; } ?>><?php echo $ingredient_name; ?></option>
+              <?php foreach(Ingredients::INGREDIENT_OPTIONS as $ing_id => $ing_name): ?>
+                <option value="<?php echo $ing_id; ?>" <?php if($ingredients->ingredient_name == $ing_id) {echo 'selected'; } ?>><?php echo $ing_name; ?></option>
               <?php endforeach; ?>
             </select>
           </div>

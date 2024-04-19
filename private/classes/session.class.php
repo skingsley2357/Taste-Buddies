@@ -18,7 +18,7 @@ class Session {
     if($user) {
       session_regenerate_id();
       $_SESSION['user_id'] = $user->user_id;
-      $this->user_id = $user->_user_id;
+      $this->user_id = $user->user_id;
 
       $this->user_name = $_SESSION['user_name'] = $user->user_name;
       $this->last_login = $_SESSION['last_login'] = time();
@@ -79,6 +79,11 @@ class Session {
   public function clear_message() {
     unset($_SESSION['message']);
   }
+
+  public function get_user_id() {
+    return $this->user_id;
+  }
+
 }
 
 ?>

@@ -8,7 +8,7 @@
 
 <?php if($session->is_logged_in()) { ?>
 
-  <a href="<?php echo url_for('new.php') ?>">Add a Recipe</a>
+  <a href="<?php echo url_for('recipes/new.php') ?>">Add a Recipe</a>
 
 <?php } ?>
 

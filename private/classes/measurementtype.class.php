@@ -1,6 +1,6 @@
 <?php
 
-class MeasurementType {
+class MeasurementType extends DatabaseObject {
 
   static protected $table_name = 'measurement_type';
   static protected $db_columns = ['measurement_id', 'measurement'];

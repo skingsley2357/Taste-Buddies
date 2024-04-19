@@ -14,7 +14,9 @@
 
   $recipe = Recipe::find_by_recipe($id);
   $ingredients = Ingredients::find_all_by_recipe($id);
-  // var_dump($ingredients);
+  $user = User::find_by_id($id);
+  // var_dump($recipe);
+  // var_dump($user);
 
 ?>
 
@@ -24,6 +26,7 @@
   <a href="recipes.php">Back to Recipes</a>
 
       <h1><?php echo h($recipe->recipe_name); ?></h1>
+      <h2>Recipe by <?php echo h($user->user_name); ?></h2>
       <br>
       <ul>
         <li>Cook Time: <?php echo h($recipe->cooking_time); ?> minutes</li>
@@ -33,8 +36,8 @@
         <?php foreach ($ingredients as $ingredient) {
         echo "<li>";
         echo h($ingredient->measurement_num) . " ";
-        echo h(MeasurementType::MEASUREMENT_TYPE[$ingredient->measurement_type]) . " ";
-        echo h(IngredientName::INGREDIENT_OPTIONS[$ingredient->ingredient_name]);
+        echo h(Ingredients::MEASUREMENT_TYPE[$ingredient->measurement_type]) . " ";
+        echo h(Ingredients::INGREDIENT_OPTIONS[$ingredient->ingredient_name]);
         echo "</li>";
         }
         ?>

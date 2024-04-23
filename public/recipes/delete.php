@@ -6,7 +6,8 @@ if(!isset($_GET['id'])) {
   redirect_to(url_for('index.php'));
 }
 $id = $_GET['id'];
-$recipe = Recipe::find_by_id($id);
+$recipe = Recipe::find_by_recipe($id);
+$ingredients = Ingredients::find_all_by_recipe($id);
 if($recipe == false) {
   redirect_to(url_for('index.php'));
 }

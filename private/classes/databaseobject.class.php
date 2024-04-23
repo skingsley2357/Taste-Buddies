@@ -60,7 +60,7 @@ class DatabaseObject {
     $sql .= "WHERE recipe_id='" . self::$database->escape_string($recipe_id) . "'";
     $obj_array = static::find_by_sql($sql);
     return $obj_array; // Return the entire array of objects
-}
+  }
 
   static protected function instantiate($record) {
     $object = new static; // Creates a new instance without using constructor arguments.
@@ -70,7 +70,7 @@ class DatabaseObject {
         }
     }
     return $object;
-}
+  }
 
   protected function validate() {
     $this->errors = [];
@@ -85,13 +85,33 @@ class DatabaseObject {
     if(!empty($this->errors)) { return false; }
 
     $attributes = $this->sanitized_attributes();
+
     $sql = "INSERT INTO " . static::$table_name . " (";
     $sql .= join(', ', array_keys($attributes));
     $sql .= ") VALUES ('";
     $sql .= join("', '", array_values($attributes));
     $sql .= "')";
-    // echo $sql;
-    // exit;
+    
+    $result = self::$database->query($sql);
+    if($result) {
+      $this->id = self::$database->insert_id;
+    }
+    return $result;
+  }
+
+  public function create_recipe() {
+    $sql = "INSERT INTO recipes (";
+    $sql .= "recipe_id, user_id, recipe_name, instructions, cooking_time, difficulty, cuisine_type, meal_type";
+    $sql .= ") VALUES (";
+    $sql .= "'" . $this->recipe_id . "', ";
+    $sql .= "'" . $this->user_id . "', ";
+    $sql .= "'" . $this->recipe_name . "', ";
+    $sql .= "'" . $this->instructions . "', ";
+    $sql .= "'" . $this->cooking_time . "', ";
+    $sql .= "'" . $this->difficulty . "', ";
+    $sql .= "'" . $this->cuisine_type . "', ";
+    $sql .= "'" . $this->meal_type . "'";
+    $sql .= ")";
     $result = self::$database->query($sql);
     if($result) {
       $this->id = self::$database->insert_id;

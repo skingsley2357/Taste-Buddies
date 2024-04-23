@@ -2,7 +2,7 @@
 
 class Session {
 
-  private $user_id;
+  public $user_id;
   public $user_name;
   public $is_admin;
   private $last_login;

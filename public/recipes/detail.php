@@ -10,13 +10,14 @@
     redirect_to('recipes.php');
   }
 
-  // Find recipe using ID
-
   $recipe = Recipe::find_by_recipe($id);
   $ingredients = Ingredients::find_all_by_recipe($id);
-  $user = User::find_by_id($id);
-  // var_dump($recipe);
-  // var_dump($user);
+  $user_id = $recipe->user_id;
+  $user = User::find_by_id($user_id);
+
+  var_dump($recipe);
+  var_dump($user_id);
+  var_dump($user);
 
 ?>
 
@@ -26,7 +27,7 @@
   <a href="recipes.php">Back to Recipes</a>
 
       <h1><?php echo h($recipe->recipe_name); ?></h1>
-      <h2>Recipe by <?php echo h($user->user_name); ?></h2>
+      <h2>Recipe by <?php echo h($user->user_name);  ?></h2>
       <br>
       <ul>
         <li>Cook Time: <?php echo h($recipe->cooking_time); ?> minutes</li>

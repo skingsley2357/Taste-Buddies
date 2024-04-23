@@ -6,34 +6,31 @@ require_login();
 
 if(is_post_request()) {
 
-  // Create record using post parameters
   $args = $_POST['recipe'];
-
-  if($session->is_logged_in()) {
-    $args['user_id'] = $session->get_user_id(); // Adjust this if user_id needs to be retrieved differently
-  }
 
   if(isset($args['cuisine_id'])) {
     $args['cuisine_type'] = $args['cuisine_id'];
-    unset($args['cuisine_id']); // Remove the original 'cuisine_id' to avoid confusion
+    unset($args['cuisine_id']);
   }
 
+  error_log("Session User ID: " . $session->user_id);
+
   $recipe = new Recipe($args);
-  $result = $recipe->save();
+  $recipe->user_id = $session->user_id;
+  $result = $recipe->create_recipe();
 
   if($result === true) {
     $new_id = $recipe->id;
     
-    // New loop for processing multiple ingredients
     for($i = 0; $i < count($_POST['ingredients']['measurement_num']); $i++) {
-        $ingredient_data = [
-            'measurement_num' => $_POST['ingredients']['measurement_num'][$i],
-            'measurement_type' => $_POST['ingredients']['measurement_type'][$i],
-            'ingredient_name' => $_POST['ingredients']['ingredient_name'][$i]
-        ];
-        $ingredient = new Ingredients($ingredient_data);
-        $ingredient->recipe_id = $new_id;
-        $ingredient->save();
+      $ingredient_data = [
+        'measurement_num' => $_POST['ingredients']['measurement_num'][$i],
+        'measurement_type' => $_POST['ingredients']['measurement_type'][$i],
+        'ingredient_name' => $_POST['ingredients']['ingredient_name'][$i]
+      ];
+      $ingredient = new Ingredients($ingredient_data);
+      $ingredient->recipe_id = $new_id;
+      $ingredient->save();
     }
 
     $_SESSION['message'] = 'The recipe was created successfully.';
@@ -43,7 +40,6 @@ if(is_post_request()) {
   }
 
 } else {
-  // display the form
   $recipe = new Recipe();
   $ingredients = new Ingredients();
 }
@@ -54,12 +50,10 @@ if(is_post_request()) {
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
 <div id="content">
-
   <a class="back-link" href="<?php echo url_for('index.php'); ?>">&laquo; Back to List</a>
 
   <div class="recipe new">
     <h1>Create recipe</h1>
-
     <form action="<?php echo url_for('/recipes/new.php'); ?>" method="post">
 
       <?php include('form_fields.php'); ?>

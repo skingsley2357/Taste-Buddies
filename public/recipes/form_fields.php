@@ -58,6 +58,13 @@ if(!isset($recipe)) {
       <div id="ingredientsList">
         <div>
           <input type="number" name="ingredients[measurement_num][]" placeholder="Quantity" required>
+
+          <?php
+    var_dump($ingredients);  // Shows the structure and type of $ingredients
+    die();                   // Stops the script to let you inspect the output
+?>
+
+
           <select name="ingredients[measurement_type][]" required>
             <option value="">Select Measurement Type</option>
             <?php foreach(Ingredients::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>

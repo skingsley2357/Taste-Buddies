@@ -99,6 +99,33 @@ class DatabaseObject {
     return $result;
   }
 
+  
+  protected function update() {
+    $this->validate();
+    if(!empty($this->errors)) { return false; }
+    
+    $attributes = $this->sanitized_attributes();
+    $attribute_pairs = [];
+    foreach($attributes as $key => $value) {
+      $attribute_pairs[] = "{$key}='{$value}'";
+    }
+
+    $sql = "UPDATE " . static::$table_name . " SET ";
+    $sql .= join(', ', $attribute_pairs);
+    $sql .= " WHERE user_id='" . self::$database->escape_string($this->user_id) . "' ";
+    $sql .= "LIMIT 1";
+    $result = self::$database->query($sql);
+    return $result;
+  }
+  
+  public function save() {
+    if(isset($this->id)) {
+      return $this->update();
+    } else {
+      return $this->create();
+    }
+  }
+  
   public function create_recipe() {
     $sql = "INSERT INTO recipes (";
     $sql .= "recipe_id, user_id, recipe_name, instructions, cooking_time, difficulty, cuisine_type, meal_type";
@@ -119,10 +146,10 @@ class DatabaseObject {
     return $result;
   }
 
-  protected function update() {
+  public function update_recipe() {
     $this->validate();
     if(!empty($this->errors)) { return false; }
-
+    
     $attributes = $this->sanitized_attributes();
     $attribute_pairs = [];
     foreach($attributes as $key => $value) {
@@ -131,28 +158,28 @@ class DatabaseObject {
 
     $sql = "UPDATE " . static::$table_name . " SET ";
     $sql .= join(', ', $attribute_pairs);
-    $sql .= " WHERE user_id='" . self::$database->escape_string($this->user_id) . "' ";
+    $sql .= " WHERE recipe_id='" . self::$database->escape_string($this->recipe_id) . "' ";
     $sql .= "LIMIT 1";
     $result = self::$database->query($sql);
     return $result;
   }
 
-  public function save() {
+  public function save_recipe() {
     if(isset($this->id)) {
-        return $this->update();
+      return $this->update_recipe();
     } else {
-        return $this->create();
+      return $this->create_recipe();
     }
-}
+  }
 
-public function valid_meal_type($meal_type_id) {
+  public function valid_meal_type($meal_type_id) {
     $sql = "SELECT 1 FROM meal_type WHERE meal_id = ?";
     $stmt = self::$database->prepare($sql);
     $stmt->bind_param("i", $meal_type_id);
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->num_rows === 1;
-}
+  }
 
   public function merge_attributes($args=[]) {
     foreach($args as $key => $value) {
@@ -190,6 +217,28 @@ public function valid_meal_type($meal_type_id) {
   public function delete() {
     $sql = "DELETE FROM " . static::$table_name . " ";
     $sql .= "WHERE user_id='" . self::$database->escape_string($this->user_id) . "' ";
+    $sql .= "LIMIT 1";
+    $result = self::$database->query($sql);
+    return $result;
+  }
+
+  function delete_related_ingredients($recipe_id) {
+    global $database;  // Assuming $database is your database connection object
+    $query = "DELETE FROM ingredients WHERE recipe_id = ?";
+    $stmt = $database->prepare($query);
+    if ($stmt) {
+        $stmt->bind_param('i', $recipe_id);  // 'i' denotes the variable type is integer
+        $stmt->execute();
+        $stmt->close();
+        return true;
+    } else {
+        return false;  // Handle errors appropriately
+    }
+  }
+  
+  public function delete_recipe() {
+    $sql = "DELETE FROM " . static::$table_name . " ";
+    $sql .= "WHERE recipe_id='" . self::$database->escape_string($this->recipe_id) . "' ";
     $sql .= "LIMIT 1";
     $result = self::$database->query($sql);
     return $result;

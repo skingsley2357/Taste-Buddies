@@ -8,12 +8,12 @@ if(!isset($recipe)) {
 ?>
   <dl>
     <dt><label for="recipeName">Recipe Name:</label></dt>
-    <dd><input type="text" id="recipeName" name="recipe[recipe_name]" required></dd>
+    <dd><input type="text" id="recipeName" name="recipe[recipe_name]" value="<?php echo h($recipe->recipe_name); ?>" required></dd>
   </dl>
 
   <dl>
     <dt><label for="cookingTime">Cooking Time (in minutes):</label></dt>
-    <dd><input type="number" id="cookingTime" name="recipe[cooking_time]" required></dd>
+    <dd><input type="number" id="cookingTime" name="recipe[cooking_time]" value="<?php echo h($recipe->cooking_time); ?>" required></dd>
   </dl>
 
   <dl>
@@ -58,13 +58,6 @@ if(!isset($recipe)) {
       <div id="ingredientsList">
         <div>
           <input type="number" name="ingredients[measurement_num][]" placeholder="Quantity" required>
-
-          <?php
-    var_dump($ingredients);  // Shows the structure and type of $ingredients
-    die();                   // Stops the script to let you inspect the output
-?>
-
-
           <select name="ingredients[measurement_type][]" required>
             <option value="">Select Measurement Type</option>
             <?php foreach(Ingredients::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>
@@ -76,7 +69,7 @@ if(!isset($recipe)) {
             <?php foreach(Ingredients::INGREDIENT_OPTIONS as $ing_id => $ing_name): ?>
               <option value="<?php echo $ing_id; ?>" <?php if($ingredients->ingredient_name == $ing_id) {echo 'selected'; } ?>><?php echo $ing_name; ?></option>
             <?php endforeach; ?>
-          </select>
+            </select>
         </div>
       </div>
     </dd>
@@ -86,5 +79,10 @@ if(!isset($recipe)) {
 
   <dl>
     <dt><label for="instructions">Instructions:</label></dt>
-    <dd><textarea id="instructions" name="recipe[instructions]" required></textarea></dd>
+    <dd><textarea id="instructions" name="recipe[instructions]" required><?php echo h($recipe->instructions); ?></textarea></dd>
+  </dl>
+
+  <dl>
+    <dt><label for="recipeImage">Recipe Image:</label></dt>
+    <dd><input type="file" id="recipeImage" name="recipe_image" accept="image/jpeg, image/png"></dd>
   </dl>

@@ -12,12 +12,9 @@
 
   $recipe = Recipe::find_by_recipe($id);
   $ingredients = Ingredients::find_all_by_recipe($id);
+  $image = Images::find_by_recipe($id);
   $user_id = $recipe->user_id;
   $user = User::find_by_id($user_id);
-
-  var_dump($recipe);
-  var_dump($user_id);
-  var_dump($user);
 
 ?>
 
@@ -45,5 +42,6 @@
         <li>Instructions: <?php echo h($recipe->instructions); ?></li>
       </ul>
 
-    
+      <img src="<?php echo h($image->file_path) ?>" alt="image of <?php echo h($recipe->recipe_name) ?>"></img>
+ 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

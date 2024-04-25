@@ -21,7 +21,18 @@ if(is_post_request()) {
 
   if($result === true) {
     $new_id = $recipe->id;
-    
+
+    if (isset($_FILES['recipe_image']) && $_FILES['recipe_image']['error'] == 0) {
+      $image_result = Images::handle_file_upload($_FILES['recipe_image'], $new_id);
+      if ($image_result !== true) {
+          $image = new Images;
+          $image->recipe_id = $new_id;
+          $image_result = $image->create_image();
+          if ($image_result !== true) {
+              $errors[] = $image_result;  // handle any error from create_image
+          }
+      }
+    }
     for($i = 0; $i < count($_POST['ingredients']['measurement_num']); $i++) {
       $ingredient_data = [
         'measurement_num' => $_POST['ingredients']['measurement_num'][$i],
@@ -54,13 +65,12 @@ if(is_post_request()) {
 
   <div class="recipe new">
     <h1>Create recipe</h1>
-    <form action="<?php echo url_for('/recipes/new.php'); ?>" method="post">
+    <form action="<?php echo url_for('/recipes/new.php'); ?>" method="post" enctype="multipart/form-data">
 
       <?php include('form_fields.php'); ?>
 
-      <div id="operations">
-        <input type="submit" value="Create Recipe" />
-      </div>
+        <input type="submit" value="Create Recipe">
+
     </form>
 
   </div>

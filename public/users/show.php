@@ -13,8 +13,6 @@ var_dump($_GET);
 <?php $page_title = 'Show user: ' . h($user->user_name); ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-<div id="content">
-
   <a class="back-link" href="<?php echo url_for('/users/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="admin show">
@@ -31,7 +29,5 @@ var_dump($_GET);
         <dd><?php echo h($user->user_name); ?></dd>
       </dl>
     </div>
-
-  </div>
 
 </div>

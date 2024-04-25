@@ -256,7 +256,7 @@ class DatabaseObject {
     } else {
         return null;
     }
-}
+  }
 
 }
 

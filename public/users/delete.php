@@ -29,11 +29,9 @@ if(is_post_request()) {
 <?php $page_title = 'Delete user'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-<div id="content">
-
   <a class="back-link" href="<?php echo url_for('/users/index.php'); ?>">&laquo; Back to List</a>
 
-  <div class="admin delete">
+  <div class="delete">
     <h1>Delete user</h1>
     <p>Are you sure you want to delete this user?</p>
     <p class="item"><?php echo h($user->user_name()); ?></p>
@@ -44,8 +42,6 @@ if(is_post_request()) {
       </div>
     </form>
   </div>
-
-</div>
 
 
 

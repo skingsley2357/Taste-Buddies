@@ -38,11 +38,8 @@ if(is_post_request()) {
 <?php $page_title = 'Edit user'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-<div id="content">
-
   <a class="back-link" href="<?php echo url_for('/users/index.php'); ?>">&laquo; Back to List</a>
 
-  
     <h1>Edit user</h1>
 
     <?php echo display_errors($user->errors); ?>
@@ -55,10 +52,6 @@ if(is_post_request()) {
         <input type="submit" value="Edit user" />
       </div>
     </form>
-
-
-
-</div>
 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>
 

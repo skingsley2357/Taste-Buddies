@@ -25,7 +25,6 @@ if(is_post_request()) {
     redirect_to(url_for('index.php'));
   }
 
-
 } else {
   // Display form
 }
@@ -34,8 +33,6 @@ if(is_post_request()) {
 
 <?php $page_title = 'Delete recipe'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
-
-<div id="content">
 
   <a class="back-link" href="<?php echo url_for('index.php'); ?>">&laquo; Back to List</a>
 
@@ -50,9 +47,5 @@ if(is_post_request()) {
       </div>
     </form>
   </div>
-
-</div>
-
-
 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

@@ -45,17 +45,13 @@ if(is_post_request()) {
   }
 
 } else {
-
   // display the form
-
 }
 
 ?>
 
 <?php $page_title = 'Edit recipe'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
-
-<div id="content">
 
   <a class="back-link" href="<?php echo url_for('index.php'); ?>">&laquo; Back to List</a>
 
@@ -75,12 +71,12 @@ if(is_post_request()) {
           ?>
           <dl>
             <dt><label for="recipeName">Recipe Name:</label></dt>
-            <dd><input type="text" id="recipeName" name="recipe[recipe_name]" required></dd>
+            <dd><input type="text" id="recipeName" name="recipe[recipe_name]" <?php echo h($recipe->recipe_name); ?> required></dd>
           </dl>
 
           <dl>
             <dt><label for="cookingTime">Cooking Time (in minutes):</label></dt>
-            <dd><input type="number" id="cookingTime" name="recipe[cooking_time]" required></dd>
+            <dd><input type="number" id="cookingTime" name="recipe[cooking_time]" value="<?php echo h($recipe->cooking_time); ?>" required></dd>
           </dl>
 
           <dl>
@@ -126,47 +122,45 @@ if(is_post_request()) {
                 <div>
                   <input type="number" name="ingredients[measurement_num][]" placeholder="Quantity" required>
 
-          <select name="ingredients[measurement_type][]" required>
-            <option value="">Select Measurement Type</option>
-            <?php foreach($ingredients as $ingredient): ?>
-                <?php foreach(Ingredients::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>
-                    <option value="<?php echo $measurement_id; ?>" <?php if($ingredient->measurement_type == $measurement_id) { echo 'selected'; } ?>>
-                        <?php echo $measurement; ?>
-                    </option>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-          </select>
+                    <select name="ingredients[measurement_type][]" required>
+                      <option value="">Select Measurement Type</option>
+                      <?php foreach($ingredients as $ingredient): ?>
+                          <?php foreach(Ingredients::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>
+                              <option value="<?php echo $measurement_id; ?>" <?php if($ingredient->measurement_type == $measurement_id) { echo 'selected'; } ?>>
+                                  <?php echo $measurement; ?>
+                              </option>
+                          <?php endforeach; ?>
+                      <?php endforeach; ?>
+                    </select>
 
-          <select id="ingredient_name" name="ingredients[ingredient_name][]" required>
-            <option value="">Select Ingredient</option>
-            <?php foreach($ingredients as $ingredient): ?>
-                <?php foreach(Ingredients::INGREDIENT_OPTIONS as $ing_id => $ing_name): ?>
-                    <option value="<?php echo $ing_id; ?>" <?php if($ingredient->ingredient_name == $ing_id) { echo 'selected'; } ?>>
-                        <?php echo $ing_name; ?>
-                    </option>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-          </select>
-        </div>
-      </div>
-    </dd>
-    <br>
-    <dd><button type="button" onclick="addIngredient()">Add More Ingredients</button></dd>
-  </dl>
+                    <select id="ingredient_name" name="ingredients[ingredient_name][]" required>
+                      <option value="">Select Ingredient</option>
+                      <?php foreach($ingredients as $ingredient): ?>
+                          <?php foreach(Ingredients::INGREDIENT_OPTIONS as $ing_id => $ing_name): ?>
+                              <option value="<?php echo $ing_id; ?>" <?php if($ingredient->ingredient_name == $ing_id) { echo 'selected'; } ?>>
+                                  <?php echo $ing_name; ?>
+                              </option>
+                          <?php endforeach; ?>
+                      <?php endforeach; ?>
+                    </select>
+                </div>
+              </div>
+            </dd>
+            <br>
+            <dd><button type="button" onclick="addIngredient()">Add More Ingredients</button></dd>
+          </dl>
 
-  <dl>
-    <dt><label for="instructions">Instructions:</label></dt>
-    <dd><textarea id="instructions" name="recipe[instructions]" required></textarea></dd>
-  </dl>
+          <dl>
+            <dt><label for="instructions">Instructions:</label></dt>
+            <dd><textarea id="instructions" name="recipe[instructions]" required><?php echo h($recipe->instructions); ?></textarea></dd>
+          </dl>
 
+          <input type="submit" value="Edit recipe" />
 
-      <div id="operations">
-        <input type="submit" value="Edit recipe" />
-      </div>
-    </form>
+      </form>
 
   </div>
 
-</div>
+
 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

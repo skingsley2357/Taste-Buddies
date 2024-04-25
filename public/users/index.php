@@ -12,8 +12,6 @@ $users = User::find_all();
 <?php $page_title = 'Users'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-
-<div id="content">
   <div class="admins listing">
     <h1>users</h1>
 
@@ -50,7 +48,5 @@ $users = User::find_all();
   	</table>
 
   </div>
-
-</div>
 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

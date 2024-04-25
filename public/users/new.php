@@ -29,8 +29,6 @@ if(is_post_request()) {
 <?php $page_title = 'Create user'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-<div id="content">
-
   <a class="back-link" href="<?php echo url_for('/users/index.php'); ?>">&laquo; Back to List</a>
 
   
@@ -46,9 +44,5 @@ if(is_post_request()) {
         <input type="submit" value="Create user">
       </div>
     </form>
-
- 
-
-</div>
 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

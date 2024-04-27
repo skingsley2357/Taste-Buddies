@@ -60,7 +60,6 @@ if(is_post_request()) {
 <?php $page_title = 'Create recipe'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-<div id="content">
   <a class="back-link" href="<?php echo url_for('index.php'); ?>">&laquo; Back to List</a>
 
   <div class="recipe new">
@@ -74,7 +73,5 @@ if(is_post_request()) {
     </form>
 
   </div>
-
-</div>
 
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

@@ -1,20 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Damion&family=Delius&family=Quicksand:wght@300..700&display=swap');
 
+:root {
+  --light-color: #FFE4B5;
+  --text-color: #4E342E;
+  --nav-color: #E74C3C;
+}
+
 * {
   box-sizing: border-box;
 }
 
+html {
+  font: 20px "Delius", cursive ;
+}
+
 body {
-  background-color: #FFE4B5;
-  font-family: "Delius", cursive;
+  background-color: var(--light-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
   margin: auto;
 }
 
 /** HEADER **/
 header {
   align-items: center;
-  background-color: #E74C3C;
-  color: #FFE4B5;
+  background-color: var(--nav-color);
+  color: var(--light-color);
   display: flex;
   justify-content: space-between;
   margin: 0;
@@ -22,9 +36,9 @@ header {
 }
 
 header h1 {
-  font-family: "Damion", cursive;
-  font-size: 40px;
-  font-weight: 100;
+  font: 100 40px "Damion", cursive;
+  /* font-size: 40px;
+  font-weight: 100; */
   margin: 0
 }
 
@@ -38,7 +52,7 @@ header nav li{
 }
 
 header nav a {
-  color: #FFE4B5;
+  color: var(--light-color);
   font-family: "Delius", cursive;
   font-size: 24;
   text-decoration: none;
@@ -48,7 +62,7 @@ header nav a {
 /** Home **/
 
 #home-h1 {
-  color: #4E342E;
+  color: var(--text-color);
   font-family: "Damion", cursive;
   font-size: 80px;
   font-weight: 100;
@@ -81,6 +95,8 @@ header nav a {
 #home img {
   border-radius: 0px 25px 25px 0px;
   justify-self: end;
+  height: 100%;
+  width: 100%;
 }
 
 #home-recipes {
@@ -94,14 +110,14 @@ header nav a {
 }
 
 #home-recipes h2 {
-  color: #4E342E;
+  color: var(--text-color);
   font-size: 38px;
   grid-column: 1 / span 3;
   text-align: center;
 }
 
 #home-recipes a:visited {
-  color: #4E342E;
+  color: var(--text-color);
 }
 
 .recipe-cards {
@@ -152,13 +168,8 @@ header nav a {
 }
 
 /*** RECIPES ***/
-#recipes {
-  color: #4E342E;
-  margin: auto;
-  height: 75vh;
-}
 
-#recipes h2 {
+#recipesH2 {
   font-family: "Delius", cursive;
   font-size: 38px;
   text-align: center;
@@ -171,14 +182,14 @@ header nav a {
 
 #recipes-table {
   font-family: "Quicksand", sans-serif;
-  border: 1px solid #4E342E;
+  border: 1px solid var(--text-color);
   border-collapse: collapse;
   margin: auto;
   padding: 0;
 }
 
 #recipes-table a {
-  color: #4E342E;
+  color: var(--text-color);
   
 }
 
@@ -187,16 +198,27 @@ header nav a {
 }
 
 #recipes-table th {
-  background-color: #4E342E;
-  color: #FFE4B5;
+  background-color: var(--text-color);
+  color: var(--light-color);
 }
 
 #recipes-table tr:nth-child(odd) {
-  background-color: #FFE4B5;
+  background-color: var(--light-color);
 }
 
 #recipes-table tr:nth-child(even) {
   background-color: #fffacdd3;
+}
+
+#create-recipes-link {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 30px;
+}
+
+#create-recipes-link:visited {
+  color: var(--text-color);
 }
 
 /***  FORMS  ***/
@@ -206,15 +228,27 @@ header nav a {
   width: 80%;
 }
 
+/** RECIPE PAGE **/
+#recipe-page h1, #recipe-page h2  {
+  text-align: center;
+}
+
+#recipe-page ul {
+  list-style: none;
+}
+
+#recipe-page li {
+  padding: .25rem;
+}
+
 
 /** FOOTER **/
 footer {
-  background-color: #E74C3C;
-  color: #FFE4B5;
+  background-color: var(--nav-color);
+  color: var(--light-color);
   display: flex;
   justify-content: space-between;
   padding: 0 1rem;
-  margin-top: 2rem;
   width: 100%;
 }
 
@@ -236,5 +270,14 @@ footer h1 {
   margin: 0;
 }
 
-/***** TEMPORARY STYLES ******/
+/***** MEDIA QUERIES ******/
 
+@media screen and (max-width: 1400px) {
+	html {
+		font-size: calc(10px + (20 - 10) * (100vw - 400px) / (1400 - 400));
+	}
+
+	#home {
+		font-size: calc(10px + (20 - 10) * (100vw - 400px) / (1400 - 400));
+	}
+}

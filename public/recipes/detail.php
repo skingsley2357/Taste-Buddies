@@ -22,15 +22,15 @@
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
   <a href="recipes.php">Back to Recipes</a>
-
+    <div id="recipe-page">
       <h1><?php echo h($recipe->recipe_name); ?></h1>
       <h2>Recipe by <?php echo h($user->user_name);  ?></h2>
       <br>
       <ul>
-        <li>Cook Time: <?php echo h($recipe->cooking_time); ?> minutes</li>
-        <li>Difficulty: <?php echo h(Difficulty::DIFFICULTY_OPTIONS[$recipe->difficulty]); ?></li>
-        <li>Cuisine Type: <?php echo h(Cuisine::CUISINE_OPTIONS[$recipe->cuisine_type]); ?></li>
-        <li>Meal Type: <?php echo h(MealType::MEAL_OPTIONS[$recipe->meal_type]); ?></li>
+        <li><b>Cook Time:</b> <?php echo h($recipe->cooking_time); ?> minutes</li>
+        <li><b>Difficulty:</b> <?php echo h(Difficulty::DIFFICULTY_OPTIONS[$recipe->difficulty]); ?></li>
+        <li><b>Cuisine Type:</b> <?php echo h(Cuisine::CUISINE_OPTIONS[$recipe->cuisine_type]); ?></li>
+        <li><b>Meal Type:</b> <?php echo h(MealType::MEAL_OPTIONS[$recipe->meal_type]); ?></li>
         <?php foreach ($ingredients as $ingredient) {
         echo "<li>";
         echo h($ingredient->measurement_num) . " ";
@@ -39,9 +39,11 @@
         echo "</li>";
         }
         ?>
-        <li>Instructions: <?php echo h($recipe->instructions); ?></li>
+        <li><b>Instructions:</b> <?php echo h($recipe->instructions); ?></li>
       </ul>
-
-      <img src="<?php echo h($image->file_path) ?>" alt="image of <?php echo h($recipe->recipe_name) ?>"></img>
+    </div>
+      <?php if (!empty($image->file_path)) : ?>
+        <img src="<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>"></img>
+      <?php endif; ?>
  
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

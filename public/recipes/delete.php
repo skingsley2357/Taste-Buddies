@@ -8,11 +8,14 @@ if(!isset($_GET['id'])) {
 $id = $_GET['id'];
 $recipe = Recipe::find_by_recipe($id);
 $ingredients = Ingredients::find_all_by_recipe($id);
+$images = Images::find_by_recipe($id);
 if($recipe == false) {
   redirect_to(url_for('index.php'));
 }
 
 if(is_post_request()) {
+
+  $images->delete_related_images($id);
 
   foreach($ingredients as $ingredient) {
     $ingredient->delete_related_ingredients($id);

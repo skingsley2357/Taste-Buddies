@@ -84,5 +84,5 @@ if(!isset($recipe)) {
 
   <dl>
     <dt><label for="recipeImage">Recipe Image:</label></dt>
-    <dd><input type="file" id="recipeImage" name="recipe_image" accept="image/jpeg, image/png"></dd>
+    <dd><input type="file" id="recipeImage" name="recipe_image" accept="image/jpeg, image/png, image/jpg"></dd>
   </dl>

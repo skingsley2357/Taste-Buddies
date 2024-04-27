@@ -51,7 +51,7 @@ class Images extends  DatabaseObject {
         return "Your file is too big!";
     }
 
-    $fileNameNew = uniqid('', true) . "." . $fileActualExt;
+    $fileNameNew = $recipe_id . "." . $fileActualExt;
     $fileDestination = '../../public/uploads/' . $fileNameNew;
 
     if (move_uploaded_file($fileTmpName, $fileDestination)) {

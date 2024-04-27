@@ -17,6 +17,7 @@ if(is_post_request()) {
 
   // Save record using post parameters
   $args = $_POST['recipe'];
+
   if(isset($args['cuisine_id'])) {
     $args['cuisine_type'] = $args['cuisine_id'];
     unset($args['cuisine_id']);
@@ -25,7 +26,14 @@ if(is_post_request()) {
   $result = $recipe->update_recipe();
 
   if($result === true) {
-    $new_id = $recipe->id;
+    $new_id = $recipe->recipe_id;
+
+    if (isset($_FILES['recipe_image']) && $_FILES['recipe_image']['error'] == 0) {
+      $image_result = Images::handle_file_upload($_FILES['recipe_image'], $new_id);
+      if ($image_result !== true) {
+          $errors[] = $image_result;
+      }
+  }
     
     for($i = 0; $i < count($_POST['ingredients']['measurement_num']); $i++) {
       $ingredient_data = [
@@ -60,7 +68,7 @@ if(is_post_request()) {
 
     <?php echo display_errors($recipe->errors); ?>
 
-    <form action="<?php echo url_for('/recipes/edit.php?id=' . h(u($id))); ?>" method="post">
+    <form action="<?php echo url_for('/recipes/edit.php?id=' . h(u($id))); ?>" method="post" enctype="multipart/form-data">
 
           <?php
 
@@ -71,7 +79,7 @@ if(is_post_request()) {
           ?>
           <dl>
             <dt><label for="recipeName">Recipe Name:</label></dt>
-            <dd><input type="text" id="recipeName" name="recipe[recipe_name]" <?php echo h($recipe->recipe_name); ?> required></dd>
+            <dd><input type="text" id="recipeName" name="recipe[recipe_name]" value="<?php echo h($recipe->recipe_name); ?>" required></dd>
           </dl>
 
           <dl>
@@ -153,6 +161,11 @@ if(is_post_request()) {
           <dl>
             <dt><label for="instructions">Instructions:</label></dt>
             <dd><textarea id="instructions" name="recipe[instructions]" required><?php echo h($recipe->instructions); ?></textarea></dd>
+          </dl>
+
+          <dl>
+            <dt><label for="recipeImage">Recipe Image:</label></dt>
+            <dd><input type="file" id="recipeImage" name="recipe_image" accept="image/jpeg, image/png, image/jpg"></dd>
           </dl>
 
           <input type="submit" value="Edit recipe" />

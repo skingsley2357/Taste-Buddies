@@ -12,16 +12,10 @@ $users = User::find_all();
 <?php $page_title = 'Users'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-  <div class="admins listing">
-    <h1>users</h1>
+  <div id="user">
+    <h1>Users</h1>
 
-    <?php if ($session->is_admin == 2) : ?>
-    <div class="actions">
-      <a class="action" href="<?php echo url_for('/users/new.php'); ?>">Add user</a>
-    </div>
-    <?php endif; ?>
-
-  	<table class="list">
+  	<table id="user-table">
       <tr>
         <th>ID</th>
         <th>Email</th>
@@ -39,9 +33,9 @@ $users = User::find_all();
           <td><?php echo h($user->email); ?></td>
           <td><?php echo h($user->user_name); ?></td>
           <?php if ($session->is_admin == 2) : ?>
-          <td><a class="action" href="<?php echo url_for('/users/show.php?id=' . h(u($user->user_id))); ?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/users/edit.php?id=' . h(u($user->user_id))); ?>">Edit</a></td>
-          <td><a class="action" href="<?php echo url_for('/users/delete.php?id=' . h(u($user->user_id))); ?>">Delete</a></td>
+          <td><a href="<?php echo url_for('/users/show.php?id=' . h(u($user->user_id))); ?>">View</a></td>
+          <td><a href="<?php echo url_for('/users/edit.php?id=' . h(u($user->user_id))); ?>">Edit</a></td>
+          <td><a href="<?php echo url_for('/users/delete.php?id=' . h(u($user->user_id))); ?>">Delete</a></td>
           <?php endif; ?>
     	  </tr>
       <?php } ?>

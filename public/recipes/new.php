@@ -60,15 +60,13 @@ if(is_post_request()) {
 <?php $page_title = 'Create recipe'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
-  <a class="back-link" href="<?php echo url_for('index.php'); ?>">&laquo; Back to List</a>
-
-  <div class="recipe new">
+  <div id="recipe new">
     <h1>Create recipe</h1>
     <form action="<?php echo url_for('/recipes/new.php'); ?>" method="post" enctype="multipart/form-data">
 
       <?php include('form_fields.php'); ?>
 
-        <input type="submit" value="Create Recipe">
+        <input id="button" type="submit" value="Create Recipe">
 
     </form>
 

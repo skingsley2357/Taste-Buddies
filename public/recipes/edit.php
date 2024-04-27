@@ -9,6 +9,10 @@ $id = $_GET['id'];
 $recipe = Recipe::find_by_recipe($id);
 $ingredients = Ingredients::find_all_by_recipe($id); // Assume this method exists to fetch ingredients
 
+var_dump($recipe);
+?> <br><br> <?php
+var_dump($ingredients);
+
 if($recipe == false) {
   redirect_to(url_for('index.php'));
 }
@@ -25,33 +29,42 @@ if(is_post_request()) {
   $recipe->merge_attributes($args);
   $result = $recipe->update_recipe();
 
-  if($result === true) {
+  if ($result === true) {
     $new_id = $recipe->recipe_id;
 
     if (isset($_FILES['recipe_image']) && $_FILES['recipe_image']['error'] == 0) {
-      $image_result = Images::handle_file_upload($_FILES['recipe_image'], $new_id);
-      if ($image_result !== true) {
-          $errors[] = $image_result;
-      }
-  }
-    
-    for($i = 0; $i < count($_POST['ingredients']['measurement_num']); $i++) {
-      $ingredient_data = [
-        'measurement_num' => $_POST['ingredients']['measurement_num'][$i],
-        'measurement_type' => $_POST['ingredients']['measurement_type'][$i],
-        'ingredient_name' => $_POST['ingredients']['ingredient_name'][$i]
-      ];
-      $ingredient = new Ingredients($ingredient_data);
-      $ingredient->recipe_id = $new_id;
-      $ingredient->update_recipe();
+        $image_result = Images::handle_file_upload($_FILES['recipe_image'], $new_id);
+        if ($image_result !== true) {
+            $errors[] = $image_result;
+        }
     }
 
-    $_SESSION['message'] = 'The recipe was created successfully.';
-    redirect_to(url_for('recipes/detail.php?id=' . $new_id));
-  } else {
-    // show errors
-  }
+    // Enhanced checks for 'ingredients' data
+    if (isset($_POST['ingredients']) && is_array($_POST['ingredients'])) {
+        $measurement_nums = $_POST['ingredients']['measurement_num'] ?? null;
+        $measurement_types = $_POST['ingredients']['measurement_type'] ?? null;
+        $ingredient_names = $_POST['ingredients']['ingredient_name'] ?? null;
 
+        if (is_array($measurement_nums) && is_array($measurement_types) && is_array($ingredient_names) &&
+            count($measurement_nums) === count($measurement_types) && count($measurement_nums) === count($ingredient_names)) {
+            for ($i = 0; $i < count($measurement_nums); $i++) {
+                $ingredient_data = [
+                    'measurement_num' => $measurement_nums[$i],
+                    'measurement_type' => $measurement_types[$i],
+                    'ingredient_name' => $ingredient_names[$i]
+                ];
+                $ingredient = new Ingredients($ingredient_data);
+                $ingredient->recipe_id = $new_id;
+                $ingredient->update_recipe();
+            }
+        } else {
+            $errors[] = "Ingredient data arrays do not match in length or are incomplete.";
+        }
+    } else {
+        $errors[] = "Ingredient data is not provided or is not in the correct format.";
+    }
+    redirect_to(url_for('recipes/detail.php?id=' . $new_id));
+  }
 } else {
   // display the form
 }
@@ -126,33 +139,29 @@ if(is_post_request()) {
           <dL>
             <dt><label>Ingredients:</label></dt>
             <dd>
+            <?php foreach($ingredients as $outer_ingredient): ?>
               <div id="ingredientsList">
-                <div>
-                  <input type="number" name="ingredients[measurement_num][]" placeholder="Quantity" required>
+                <input type="number" name="ingredient[measurement_num][]" placeholder="Quantity" value="<?php echo h($outer_ingredient->measurement_num); ?>" required>
 
-                    <select name="ingredients[measurement_type][]" required>
-                      <option value="">Select Measurement Type</option>
-                      <?php foreach($ingredients as $ingredient): ?>
-                          <?php foreach(Ingredients::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>
-                              <option value="<?php echo $measurement_id; ?>" <?php if($ingredient->measurement_type == $measurement_id) { echo 'selected'; } ?>>
-                                  <?php echo $measurement; ?>
-                              </option>
-                          <?php endforeach; ?>
-                      <?php endforeach; ?>
-                    </select>
+                <select name="ingredient[measurement_type][]" required>
+                  <option value="">Select Measurement Type</option>
+                  <?php foreach(Ingredients::MEASUREMENT_TYPE as $measurement_id => $measurement): ?>
+                    <option value="<?php echo $measurement_id; ?>" <?php if($outer_ingredient->measurement_type == $measurement_id) { echo 'selected'; } ?>>
+                      <?php echo $measurement; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
 
-                    <select id="ingredient_name" name="ingredients[ingredient_name][]" required>
-                      <option value="">Select Ingredient</option>
-                      <?php foreach($ingredients as $ingredient): ?>
-                          <?php foreach(Ingredients::INGREDIENT_OPTIONS as $ing_id => $ing_name): ?>
-                              <option value="<?php echo $ing_id; ?>" <?php if($ingredient->ingredient_name == $ing_id) { echo 'selected'; } ?>>
-                                  <?php echo $ing_name; ?>
-                              </option>
-                          <?php endforeach; ?>
-                      <?php endforeach; ?>
-                    </select>
-                </div>
+                <select id="ingredient_name" name="ingredient[ingredient_name][]" required>
+                  <option value="">Select Ingredient</option>
+                  <?php foreach(Ingredients::INGREDIENT_OPTIONS as $ing_id => $ing_name): ?>
+                    <option value="<?php echo $ing_id; ?>" <?php if($outer_ingredient->ingredient_name == $ing_id) { echo 'selected'; } ?>>
+                      <?php echo $ing_name; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
               </div>
+              <?php endforeach; ?>
             </dd>
             <br>
             <dd><button type="button" onclick="addIngredient()">Add More Ingredients</button></dd>
@@ -165,7 +174,7 @@ if(is_post_request()) {
 
           <dl>
             <dt><label for="recipeImage">Recipe Image:</label></dt>
-            <dd><input type="file" id="recipeImage" name="recipe_image" accept="image/jpeg, image/png, image/jpg"></dd>
+            <dd><input id="form-img" type="file" id="recipeImage" name="recipe_image" accept="image/jpeg, image/png, image/jpg"></dd>
           </dl>
 
           <input type="submit" value="Edit recipe" />

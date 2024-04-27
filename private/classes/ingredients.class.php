@@ -19,6 +19,33 @@ class Ingredients extends DatabaseObject {
     $this->measurement_num = $args['measurement_num'] ?? '';
   }
 
+  public static function delete_by_id($ingredient_id) {
+    global $database;
+    $sql = "DELETE FROM ingredients WHERE ingredient_id = ?";
+    $stmt = $database->prepare($sql);
+    $stmt->bind_param("i", $ingredient_id);  // Assuming 'id' is an integer
+    $stmt->execute();
+    if ($stmt->affected_rows > 0) {
+        return true;
+    } else {
+        return false;  // No rows were deleted, check if ID exists
+    }
+  }
+
+  function delete_related_ingredients($recipe_id) {
+    global $database;  // Assuming $database is your database connection object
+    $query = "DELETE FROM ingredients WHERE recipe_id = ?";
+    $stmt = $database->prepare($query);
+    if ($stmt) {
+        $stmt->bind_param('i', $recipe_id);  // 'i' denotes the variable type is integer
+        $stmt->execute();
+        $stmt->close();
+        return true;
+    } else {
+        return false;  // Handle errors appropriately
+    }
+  }
+
   public const INGREDIENT_OPTIONS = [
     1 => 'Onion',
     2 => 'Garlic',

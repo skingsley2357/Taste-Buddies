@@ -9,15 +9,20 @@ $id = $_GET['id'];
 $recipe = Recipe::find_by_recipe($id);
 $ingredients = Ingredients::find_all_by_recipe($id); // Assume this method exists to fetch ingredients
 
-var_dump($recipe);
-?> <br><br> <?php
-var_dump($ingredients);
-
 if($recipe == false) {
   redirect_to(url_for('index.php'));
 }
 
+$deleted_ingredient_id = $_SESSION['deleted_ingredient_id'] ?? null;
+unset($_SESSION['deleted_ingredient_id']); // Clear the session variable after use
+
 if(is_post_request()) {
+
+    if (isset($_POST['delete_ingredients']) && is_array($_POST['delete_ingredients'])) {
+      foreach ($_POST['delete_ingredients'] as $ingredient_id) {
+        Ingredients::delete_by_id($ingredient_id);
+      }
+    }
 
   // Save record using post parameters
   $args = $_POST['recipe'];
@@ -141,6 +146,7 @@ if(is_post_request()) {
             <dd>
             <?php foreach($ingredients as $outer_ingredient): ?>
               <div id="ingredientsList">
+                <input type="checkbox" name="delete_ingredients[]" value="<?php echo h($outer_ingredient->ingredient_id); ?>">
                 <input type="number" name="ingredient[measurement_num][]" placeholder="Quantity" value="<?php echo h($outer_ingredient->measurement_num); ?>" required>
 
                 <select name="ingredient[measurement_type][]" required>
@@ -159,7 +165,8 @@ if(is_post_request()) {
                       <?php echo $ing_name; ?>
                     </option>
                   <?php endforeach; ?>
-                </select>
+                  </select>
+                
               </div>
               <?php endforeach; ?>
             </dd>

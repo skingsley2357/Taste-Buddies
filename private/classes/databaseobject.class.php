@@ -222,20 +222,6 @@ class DatabaseObject {
     return $result;
   }
 
-  function delete_related_ingredients($recipe_id) {
-    global $database;  // Assuming $database is your database connection object
-    $query = "DELETE FROM ingredients WHERE recipe_id = ?";
-    $stmt = $database->prepare($query);
-    if ($stmt) {
-        $stmt->bind_param('i', $recipe_id);  // 'i' denotes the variable type is integer
-        $stmt->execute();
-        $stmt->close();
-        return true;
-    } else {
-        return false;  // Handle errors appropriately
-    }
-  }
-
   function delete_related_images($recipe_id) {
     global $database;  // Assuming $database is your database connection object
     $query = "DELETE FROM images WHERE recipe_id = ?";

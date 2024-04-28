@@ -19,6 +19,35 @@ class Ingredients extends DatabaseObject {
     $this->measurement_num = $args['measurement_num'] ?? '';
   }
 
+  public static function find_by_ingredient_id($ingredient_id) {
+    global $database;  // Ensure that your global database connection variable is used
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE ingredient_id='" . $database->escape_string($ingredient_id) . "' LIMIT 1";
+    $result = $database->query($sql);
+    if($row = $result->fetch_assoc()) {
+        return self::instantiate($row);
+    } else {
+        return false;  // No ingredient found
+    }
+  }
+
+  public function update_ingredient() {
+    $this->validate();
+    if (!empty($this->errors)) { return false; }
+
+    $attributes = $this->sanitized_attributes();
+    $attribute_pairs = [];
+    foreach ($attributes as $key => $value) {
+        $attribute_pairs[] = "{$key}='{$value}'";
+    }
+
+    $sql = "UPDATE " . static::$table_name . " SET ";
+    $sql .= join(', ', $attribute_pairs);
+    $sql .= " WHERE ingredient_id='" . self::$database->escape_string($this->ingredient_id) . "' LIMIT 1";
+    $result = self::$database->query($sql);
+    return $result;
+  }
+
   public static function delete_by_id($ingredient_id) {
     global $database;
     $sql = "DELETE FROM ingredients WHERE ingredient_id = ?";

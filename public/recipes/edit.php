@@ -3,75 +3,65 @@
 require_once('../../private/initialize.php');
 
 if(!isset($_GET['id'])) {
-  redirect_to(url_for('index.php'));
+    redirect_to(url_for('index.php'));
 }
 $id = $_GET['id'];
 $recipe = Recipe::find_by_recipe($id);
 $ingredients = Ingredients::find_all_by_recipe($id); // Assume this method exists to fetch ingredients
 
 if($recipe == false) {
-  redirect_to(url_for('index.php'));
+    redirect_to(url_for('index.php'));
 }
 
 $deleted_ingredient_id = $_SESSION['deleted_ingredient_id'] ?? null;
 unset($_SESSION['deleted_ingredient_id']); // Clear the session variable after use
 
 if(is_post_request()) {
-
-    if (isset($_POST['delete_ingredients']) && is_array($_POST['delete_ingredients'])) {
-      foreach ($_POST['delete_ingredients'] as $ingredient_id) {
-        Ingredients::delete_by_id($ingredient_id);
-      }
-    }
-
+  error_log('POST Data: ' . print_r($_POST, true));
   // Save record using post parameters
   $args = $_POST['recipe'];
 
   if(isset($args['cuisine_id'])) {
-    $args['cuisine_type'] = $args['cuisine_id'];
-    unset($args['cuisine_id']);
+      $args['cuisine_type'] = $args['cuisine_id'];
+      unset($args['cuisine_id']);
   }
   $recipe->merge_attributes($args);
-  $result = $recipe->update_recipe();
+  $result = $recipe->update(); // Assuming save method is correct
 
   if ($result === true) {
-    $new_id = $recipe->recipe_id;
+      $new_id = $recipe->recipe_id;
 
-    if (isset($_FILES['recipe_image']) && $_FILES['recipe_image']['error'] == 0) {
-        $image_result = Images::handle_file_upload($_FILES['recipe_image'], $new_id);
-        if ($image_result !== true) {
-            $errors[] = $image_result;
-        }
-    }
+      if (isset($_FILES['recipe_image']) && $_FILES['recipe_image']['error'] == 0) {
+          $image_result = Images::handle_file_upload($_FILES['recipe_image'], $new_id);
+          if ($image_result !== true) {
+              $errors[] = $image_result;
+          }
+      }
 
-    // Enhanced checks for 'ingredients' data
-    if (isset($_POST['ingredients']) && is_array($_POST['ingredients'])) {
-        $measurement_nums = $_POST['ingredients']['measurement_num'] ?? null;
-        $measurement_types = $_POST['ingredients']['measurement_type'] ?? null;
-        $ingredient_names = $_POST['ingredients']['ingredient_name'] ?? null;
+      // Using more specific variable names for clarity
+      $ingredient_ids_to_process = $_POST['ingredient']['ingredient_id'] ?? [];
+      $delete_ids = $_POST['delete_ingredients'] ?? [];
 
-        if (is_array($measurement_nums) && is_array($measurement_types) && is_array($ingredient_names) &&
-            count($measurement_nums) === count($measurement_types) && count($measurement_nums) === count($ingredient_names)) {
-            for ($i = 0; $i < count($measurement_nums); $i++) {
-                $ingredient_data = [
-                    'measurement_num' => $measurement_nums[$i],
-                    'measurement_type' => $measurement_types[$i],
-                    'ingredient_name' => $ingredient_names[$i]
-                ];
-                $ingredient = new Ingredients($ingredient_data);
-                $ingredient->recipe_id = $new_id;
-                $ingredient->update_recipe();
-            }
-        } else {
-            $errors[] = "Ingredient data arrays do not match in length or are incomplete.";
-        }
-    } else {
-        $errors[] = "Ingredient data is not provided or is not in the correct format.";
-    }
-    redirect_to(url_for('recipes/detail.php?id=' . $new_id));
+      foreach ($ingredient_ids_to_process as $index => $ingredient_id) {
+          if (in_array($ingredient_id, $delete_ids)) {
+              Ingredients::delete_by_id($ingredient_id);  // Assuming you have a static method for deletion
+              continue;
+          }
+
+          $ingredient = Ingredients::find_by_ingredient_id($ingredient_id);  // Fetch the existing ingredient
+          if (!$ingredient) {
+              continue;  // Skip if no ingredient found
+          }
+
+          // Update the ingredient details
+          $ingredient->measurement_num = $_POST['ingredient']['measurement_num'][$index];
+          $ingredient->measurement_type = $_POST['ingredient']['measurement_type'][$index];
+          $ingredient->ingredient_name = $_POST['ingredient']['ingredient_name'][$index];
+          $ingredient->update_ingredient();  // Update the ingredient
+      }
   }
-} else {
-  // display the form
+  // Redirect after post
+  redirect_to(url_for('recipes/detail.php?id=' . $new_id));
 }
 
 ?>
@@ -147,6 +137,7 @@ if(is_post_request()) {
             <?php foreach($ingredients as $outer_ingredient): ?>
               <div id="ingredientsList">
                 <input type="checkbox" name="delete_ingredients[]" value="<?php echo h($outer_ingredient->ingredient_id); ?>">
+                <input type="hidden" name="ingredient[ingredient_id][]" value="<?php echo h($outer_ingredient->ingredient_id); ?>">
                 <input type="number" name="ingredient[measurement_num][]" placeholder="Quantity" value="<?php echo h($outer_ingredient->measurement_num); ?>" required>
 
                 <select name="ingredient[measurement_type][]" required>
@@ -155,10 +146,10 @@ if(is_post_request()) {
                     <option value="<?php echo $measurement_id; ?>" <?php if($outer_ingredient->measurement_type == $measurement_id) { echo 'selected'; } ?>>
                       <?php echo $measurement; ?>
                     </option>
-                  <?php endforeach; ?>
-                </select>
+                 <?php endforeach; ?>
+              </select>
 
-                <select id="ingredient_name" name="ingredient[ingredient_name][]" required>
+                <select name="ingredient[ingredient_name][]" required>
                   <option value="">Select Ingredient</option>
                   <?php foreach(Ingredients::INGREDIENT_OPTIONS as $ing_id => $ing_name): ?>
                     <option value="<?php echo $ing_id; ?>" <?php if($outer_ingredient->ingredient_name == $ing_id) { echo 'selected'; } ?>>
@@ -168,7 +159,7 @@ if(is_post_request()) {
                   </select>
                 
               </div>
-              <?php endforeach; ?>
+            <?php endforeach; ?>
             </dd>
             <br>
             <dd><button type="button" onclick="addIngredient()">Add More Ingredients</button></dd>

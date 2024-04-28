@@ -2,7 +2,7 @@
 
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta charset="UTF-8">
     <title>Taste Buddies <?php if(isset($page_title)) { echo '- ' . h($page_title); } ?></title>
     <link rel="stylesheet" media="all" href="<?php echo url_for('/css/style.css'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">

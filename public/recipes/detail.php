@@ -26,6 +26,19 @@
       <h1><?php echo h($recipe->recipe_name); ?></h1>
       <h2>Recipe by <?php echo h($user->user_name);  ?></h2>
       <br>
+      <div id="multiplier">
+        <p><b>Ingredient Multiplier:</b></p>
+        <input type="radio" name="scale" value="0.5" id="half">
+        <label for="half">X&#189;</label>
+        <input type="radio" name="scale" value="1" id="full" checked>
+        <label for="full">X1</label>
+        <input type="radio" name="scale" value="2" id="double">
+        <label for="double">X2</label>
+        <input type="radio" name="scale" value="3" id="triple">
+        <label for="triple">X3</label>
+        <input type="radio" name="scale" value="4" id="quadruple">
+        <label for="quadruple">X4</label>
+      </div>
       <div id="recipe-flex">
         <ul>
           <li><b>Cook Time:</b> <?php echo h($recipe->cooking_time); ?> minutes</li>
@@ -44,7 +57,7 @@
         </ul>
 
         <?php if (!empty($image->file_path)) : ?>
-          <img src="<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>"/>
+          <img src="<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>">
         <?php endif; ?>
       </div>
     </div>

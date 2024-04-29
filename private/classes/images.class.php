@@ -52,24 +52,26 @@ class Images extends  DatabaseObject {
     }
 
     $fileNameNew = $recipe_id . "." . $fileActualExt;
-    $fileDestination = '../../public/uploads/' . $fileNameNew;
+    $fileDestination = $_SERVER['DOCUMENT_ROOT'] . '/TasteBuddies/public/uploads/' . $fileNameNew;
+    if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/TasteBuddies/public/uploads')) {
+      mkdir($_SERVER['DOCUMENT_ROOT'] . '/TasteBuddies/public/uploads', 0777, true);
+  }
 
-    if (move_uploaded_file($fileTmpName, $fileDestination)) {
-        // Save the file path in the database
-        global $database; // Make sure $database is accessible or use a database connection
-        $sql = "INSERT INTO images (recipe_id, file_path) VALUES (?, ?)";
-        $stmt = $database->prepare($sql);
-        $stmt->bind_param("is", $recipe_id, $fileDestination);
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return "Error storing file information in the database.";
-        }
-    } else {
-        return "Failed to move the uploaded file.";
-    }
+  if (move_uploaded_file($fileTmpName, $fileDestination)) {
+      // Save the file path in the database
+      global $database; // Make sure $database is accessible or use a database connection
+      $sql = "INSERT INTO images (recipe_id, file_path) VALUES (?, ?)";
+      $stmt = $database->prepare($sql);
+      $stmt->bind_param("is", $recipe_id, $fileNameNew);  // Store only the file name or a better-resolved path
+      if ($stmt->execute()) {
+          return true;
+      } else {
+          return "Error storing file information in the database.";
+      }
+  } else {
+      return "Failed to move the uploaded file. Error: " . json_encode(error_get_last());
   }
 
 }
-
+}
 ?>

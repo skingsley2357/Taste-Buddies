@@ -2,24 +2,11 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   // Function to add ingredients dynamically
-  function addIngredient() {
-    var ingredientsList = document.getElementById('ingredientsList');
-    var clonedIngredients = ingredientsList.cloneNode(true);
-    var selects = clonedIngredients.getElementsByTagName('select');
-    var inputs = clonedIngredients.getElementsByTagName('input');
-
-    for (var i = 0; i < selects.length; i++) {
-      selects[i].selectedIndex = 0;
-    }
-    for (var i = 0; i < inputs.length; i++) {
-      if (inputs[i].type === 'text' || inputs[i].type === 'number') {
-        inputs[i].value = '';
-      } else if (inputs[i].type === 'checkbox' || inputs[i].type === 'radio') {
-        inputs[i].checked = false;
-      }
-    }
-    ingredientsList.parentNode.appendChild(clonedIngredients);
+  var addButton = document.querySelector('button that calls addIngredient'); // Replace with your actual button selector
+  if (addButton) {
+      addButton.addEventListener('click', addIngredient);
   }
+  
 
   // Scaling ingredients based on selected radio button
   const radios = document.querySelectorAll('input[type="radio"][name="scale"]');
@@ -140,3 +127,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 });
+
+function addIngredient() {
+  var ingredientsList = document.getElementById('ingredientsList');
+  var clonedIngredients = ingredientsList.cloneNode(true);
+  var selects = clonedIngredients.getElementsByTagName('select');
+  var inputs = clonedIngredients.getElementsByTagName('input');
+
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].selectedIndex = 0;
+  }
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].type === 'text' || inputs[i].type === 'number') {
+      inputs[i].value = '';
+    } else if (inputs[i].type === 'checkbox' || inputs[i].type === 'radio') {
+      inputs[i].checked = false;
+    }
+  }
+  ingredientsList.parentNode.appendChild(clonedIngredients);
+}

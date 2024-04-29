@@ -7,18 +7,18 @@ if(!isset($_GET['id'])) {
 }
 $id = $_GET['id'];
 $recipe = Recipe::find_by_recipe($id);
-$ingredients = Ingredients::find_all_by_recipe($id); // Assume this method exists to fetch ingredients
+$ingredients = Ingredients::find_all_by_recipe($id);
 
 if($recipe == false) {
     redirect_to(url_for('index.php'));
 }
 
 $deleted_ingredient_id = $_SESSION['deleted_ingredient_id'] ?? null;
-unset($_SESSION['deleted_ingredient_id']); // Clear the session variable after use
+unset($_SESSION['deleted_ingredient_id']); 
 
 if(is_post_request()) {
   error_log('POST Data: ' . print_r($_POST, true));
-  // Save record using post parameters
+  
   $args = $_POST['recipe'];
 
   if(isset($args['cuisine_id'])) {
@@ -26,7 +26,7 @@ if(is_post_request()) {
       unset($args['cuisine_id']);
   }
   $recipe->merge_attributes($args);
-  $result = $recipe->update(); // Assuming save method is correct
+  $result = $recipe->update_recipe(); 
 
   if ($result === true) {
       $new_id = $recipe->recipe_id;
@@ -38,29 +38,26 @@ if(is_post_request()) {
           }
       }
 
-      // Using more specific variable names for clarity
       $ingredient_ids_to_process = $_POST['ingredient']['ingredient_id'] ?? [];
       $delete_ids = $_POST['delete_ingredients'] ?? [];
 
       foreach ($ingredient_ids_to_process as $index => $ingredient_id) {
           if (in_array($ingredient_id, $delete_ids)) {
-              Ingredients::delete_by_id($ingredient_id);  // Assuming you have a static method for deletion
+              Ingredients::delete_by_id($ingredient_id);  
               continue;
           }
 
-          $ingredient = Ingredients::find_by_ingredient_id($ingredient_id);  // Fetch the existing ingredient
+          $ingredient = Ingredients::find_by_ingredient_id($ingredient_id);  
           if (!$ingredient) {
-              continue;  // Skip if no ingredient found
+              continue;  
           }
 
-          // Update the ingredient details
           $ingredient->measurement_num = $_POST['ingredient']['measurement_num'][$index];
           $ingredient->measurement_type = $_POST['ingredient']['measurement_type'][$index];
           $ingredient->ingredient_name = $_POST['ingredient']['ingredient_name'][$index];
           $ingredient->update_ingredient();  // Update the ingredient
       }
   }
-  // Redirect after post
   redirect_to(url_for('recipes/detail.php?id=' . $new_id));
 }
 

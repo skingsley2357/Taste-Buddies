@@ -57,7 +57,7 @@
         </ul>
 
         <?php if (!empty($image->file_path)) : ?>
-          <img src="<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>">
+          <img src="../../public/uploads/<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>">
         <?php endif; ?>
       </div>
     </div>

@@ -10,25 +10,25 @@ include(SHARED_PATH . '/public_header.php');
   <img src="images/rawimage.jpg" alt="fresh vegetables" width=210 height=358>
 </main>
 
+<?php 
+  $recipes = Recipe::find_all();
+  ?>
+
 <section id='home-recipes'>
   <h2><a href="recipes/recipes.php">Recipes</a></h2>
-  <div class='recipe-cards'>
-    <img src="images/spaghetti-bolognese-recipe.jpg" alt="spaghetti bolognese" width=800 height=266>
-    <p>Classic Spaghetti Bolognese</p>
-    <p>scottakingsley</p>
-  </div>
-
-  <div class='recipe-cards'>
-    <img src="images/spaghetti-bolognese-recipe.jpg" alt="spaghetti bolognese" width=800 height=266>
-    <p>Classic Spaghetti Bolognese</p>
-    <p>scottakingsley</p>
-  </div>
+  <?php 
+    foreach ($recipes as $recipe) { 
+      $image = Images::find_by_recipe($recipe->recipe_id);
+      $user = User::find_by_id($recipe->user_id);
+  ?>
+      <div class='recipe-cards'>
+        <img src="uploads/<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>">
+        <p><?php echo h($recipe->recipe_name); ?>
+        <br>
+        <?php echo h($user->user_name); ?></p>
+      </div>
+  <?php } ?>
   
-  <div class='recipe-cards'>
-    <img src="images/spaghetti-bolognese-recipe.jpg" alt="spaghetti bolognese" width=800 height=266>
-    <p>Classic Spaghetti Bolognese</p>
-    <p>scottakingsley</p>
-  </div>
 </section>
 
 

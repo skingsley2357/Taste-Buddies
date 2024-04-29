@@ -12,8 +12,10 @@
 
     <header>
       <h1>Taste Buddies</h1>
+      <label for="nav-trigger" class="menu-icon">☰</label>
+      <input type="checkbox" id="nav-trigger" style="display:none;" />
       <nav>
-        <ul>
+        <ul id="navbar">
           <li><a href="<?php echo url_for('index.php'); ?>">Home</a></li>
           <li><a href="<?php echo url_for('about_us.php'); ?>">About Us</a></li>
           <?php if($session->is_logged_in()) { ?>

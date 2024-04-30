@@ -58,8 +58,9 @@ header nav a {
   text-decoration: none;
 }
 
-.menu-icon {
-  display: none;
+.nav-trigger,
+#nav-box {
+	display: none;
 }
 
 /** Home **/
@@ -514,10 +515,8 @@ footer h1 {
     text-align: center;
   }
 
-  #nav-trigger {
-    background-color: var(--main-color);
-    border-bottom: solid 2px var(--text-color);
-    color: var(--text-color);
+  .nav-trigger {
+    color: var(--main-color);
     cursor: pointer;
     display: block;
     padding: 0.5rem;
@@ -525,10 +524,9 @@ footer h1 {
   }
 
   /* Check if the checkbox is checked to display the menu */
-  #nav-trigger:checked + nav ul {
+  #nav-box:checked ~ nav ul {
     display: block;
-  }
-
+}
 
   footer nav {
     display: flex;

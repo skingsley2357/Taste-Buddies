@@ -22,10 +22,12 @@ include(SHARED_PATH . '/public_header.php');
       $user = User::find_by_id($recipe->user_id);
   ?>
       <div class='recipe-cards'>
-        <img src="uploads/<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>">
-        <p><?php echo h($recipe->recipe_name); ?>
-        <br>
-        by: <?php echo h($user->user_name); ?></p>
+        <a href="recipes/detail.php?id=<?php echo $recipe->recipe_id; ?>">
+          <img src="uploads/<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>">
+          <p><?php echo h($recipe->recipe_name); ?>
+          <br>
+          by: <?php echo h($user->user_name); ?></p>
+        </a>
       </div>
   <?php } ?>
   

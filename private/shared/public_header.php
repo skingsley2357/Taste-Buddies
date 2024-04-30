@@ -12,8 +12,8 @@
 
     <header>
       <h1>Taste Buddies</h1>
-      <label for="nav-trigger" class="menu-icon">☰</label>
-      <input type="checkbox" id="nav-trigger" style="display:none;" />
+      <label for="nav-box" class="nav-trigger">Menu</label>
+      <input type="checkbox" id="nav-box">
       <nav>
         <ul id="navbar">
           <li><a href="<?php echo url_for('index.php'); ?>">Home</a></li>

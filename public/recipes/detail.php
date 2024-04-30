@@ -60,6 +60,15 @@
           <img src="../../public/uploads/<?php echo h($image->file_path) ?>" alt="Image of <?php echo h($recipe->recipe_name) ?>">
         <?php endif; ?>
       </div>
+
+      <?php // Check if user is logged in and the user IDs match
+        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $recipe->user_id) {
+          // Display links to edit and delete pages
+          echo '<a href="edit.php?id=' . $id . '">Edit Recipe</a>';
+          echo ' | ';
+          echo '<a href="delete.php?id=' . $id . '">Delete Recipe</a>';
+        }
+      ?>
     </div>
  
 <?php include(SHARED_PATH . '/public_footer.php'); ?>

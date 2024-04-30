@@ -26,6 +26,14 @@ body {
   margin: auto;
 }
 
+a {
+  color: var(--text-color);
+}
+
+a:visited {
+  color: var(--text-color);
+}
+
 /** HEADER **/
 header {
   align-items: center;

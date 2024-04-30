@@ -15,7 +15,9 @@ if($recipe == false) {
 
 if(is_post_request()) {
 
-  $images->delete_related_images($id);
+  if ($images !== false) {
+    $images->delete_related_images($id);
+  }
 
   foreach($ingredients as $ingredient) {
     $ingredient->delete_related_ingredients($id);

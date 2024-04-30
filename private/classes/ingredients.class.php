@@ -1,16 +1,57 @@
 <?php
 
+/**
+ * Represents an Ingredients entity with properties and methods to manage ingredient data for recipes.
+ */
 class Ingredients extends DatabaseObject {
 
+  /**
+   * The database table name associated with the Ingredients class.
+   * @var string
+   */
   static protected $table_name = 'ingredients';
-  static protected $db_columns = ['ingredient_id','recipe_id',  'ingredient_name', 'measurement_type', 'measurement_num'];
 
+  /**
+   * The database columns to be used with the Ingredients class.
+   * @var array
+   */
+  static protected $db_columns = ['ingredient_id', 'recipe_id', 'ingredient_name', 'measurement_type', 'measurement_num'];
+
+  /**
+   * The identifier for the ingredient.
+   * @var int
+   */
   public $ingredient_id;
+
+  /**
+   * The associated recipe identifier.
+   * @var int
+   */
   public $recipe_id;
+
+  /**
+   * The name of the ingredient.
+   * @var string
+   */
   public $ingredient_name;
+
+  /**
+   * The type of measurement used for the ingredient.
+   * @var string
+   */
   public $measurement_type;
+
+  /**
+   * The numerical value of the measurement for the ingredient.
+   * @var float
+   */
   public $measurement_num;
 
+  /**
+   * Constructor for the Ingredients class.
+   * Initializes the ingredient properties using an associative array.
+   * @param array $args - Associative array of properties to set.
+   */
   public function __construct($args=[]) {
     $this->ingredient_id = $args['ingredient_id'] ?? '';
     $this->recipe_id = $args['recipe_id'] ?? '';
@@ -19,18 +60,26 @@ class Ingredients extends DatabaseObject {
     $this->measurement_num = $args['measurement_num'] ?? '';
   }
 
+  /**
+   * Finds an ingredient by its ID.
+   * @param int $ingredient_id - The ID of the ingredient to find.
+   * @return mixed - Ingredient object if found, false otherwise.
+   */
   public static function find_by_ingredient_id($ingredient_id) {
     global $database;  // Ensure that your global database connection variable is used
-    $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE ingredient_id='" . $database->escape_string($ingredient_id) . "' LIMIT 1";
+    $sql = "SELECT * FROM " . static::$table_name . " WHERE ingredient_id='" . $database->escape_string($ingredient_id) . "' LIMIT 1";
     $result = $database->query($sql);
-    if($row = $result->fetch_assoc()) {
+    if ($row = $result->fetch_assoc()) {
         return self::instantiate($row);
     } else {
         return false;  // No ingredient found
     }
   }
 
+  /**
+   * Updates an existing ingredient in the database.
+   * @return bool - True on success, false on failure.
+   */
   public function update_ingredient() {
     $this->validate();
     if (!empty($this->errors)) { return false; }
@@ -48,18 +97,24 @@ class Ingredients extends DatabaseObject {
     return $result;
   }
 
+  /**
+   * Deletes an ingredient by its ID.
+   * @param int $ingredient_id - The ID of the ingredient to delete.
+   * @return bool - True on success, false on failure.
+   */
   public static function delete_by_id($ingredient_id) {
     global $database;
     $sql = "DELETE FROM ingredients WHERE ingredient_id = ?";
     $stmt = $database->prepare($sql);
-    $stmt->bind_param("i", $ingredient_id);  // Assuming 'id' is an integer
-    $stmt->execute();
-    if ($stmt->affected_rows > 0) {
+    $stmt->bind_param("i", $ingredient_id);
+    if ($stmt->execute()) {
         return true;
     } else {
-        return false;  // No rows were deleted, check if ID exists
+        return false;
     }
   }
+
+
 
   function delete_related_ingredients($recipe_id) {
     global $database;  // Assuming $database is your database connection object
@@ -168,14 +223,6 @@ class Ingredients extends DatabaseObject {
     90 => 'Peanuts',
   ];
 
-  // public function ingredient() {
-  //   if($this->ingredient_id > 0) {
-  //     return self::INGREDIENT_OPTIONS[$this->ingredient_id];
-  //   } else {
-  //     return "Unknown";
-  //   }
-  // }
-
   public const MEASUREMENT_TYPE = [
     1 => 'Teaspoon (tsp)',
     2 => 'Tablespoon (tbsp)',
@@ -197,33 +244,6 @@ class Ingredients extends DatabaseObject {
     18 => 'Sprig',
     20 => 'Half'
   ];
-
-
-  // public function measurement_type() {
-  //   if($this->measurement_type > 0) {
-  //     return self::MEASUREMENT_TYPE[$this->measurement_type];
-  //   } else {
-  //     return "Unknown";
-  //   }
-  // }
-
-//   static function validate_ingredient_name($ingredient_name) {
-//     global $database;  // Ensure that $database is the database connection instance
-//     $sql = "SELECT Ingredient_name_id FROM ingredient_name WHERE name = ?";
-//     $stmt = $database->prepare($sql);
-//     $stmt->bind_param("s", $ingredient_name);
-//     $stmt->execute();
-//     $result = $stmt->get_result();
-//     return ($result->num_rows > 0);
-// }
-
-  // public function __construct($ingredient_id = null, $recipe_id = null, $ingredient_name = null, $measurement_type = null, $measurement_num = null) {
-  //   $this->ingredient_id = $ingredient_id;
-  //   $this->recipe_id = $recipe_id;
-  //   $this->ingredient_name = $ingredient_name;
-  //   $this->measurement_type = $measurement_type;
-  //   $this->measurement_num = $measurement_num;
-  // }
 
 }
 

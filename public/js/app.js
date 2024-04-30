@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Initialize the document, setup event listeners and initiate initial configurations.
+ * This function will run after the DOM is fully loaded.
+ */
 document.addEventListener('DOMContentLoaded', function () {
   // Function to add ingredients dynamically
   var addButton = document.querySelector('button that calls addIngredient'); // Replace with your actual button selector
@@ -16,6 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /**
+  * Scales the quantities of ingredients based on the selected scale factor from radio buttons.
+  * @param {number} scale - The scale factor to apply to ingredient quantities.
+  */
   function updateIngredients(scale) {
     const ingredients = document.querySelectorAll('#recipe-flex li');
     ingredients.forEach(li => {
@@ -55,7 +63,12 @@ document.addEventListener('DOMContentLoaded', function () {
         updateHeaderSortIndicators(headers, header, sortDirection);
       });
     });
-
+    
+    /**
+    * Sorts the table based on the selected column header.
+    * @param {number} columnIndex - The index of the column to sort by.
+    * @param {number} direction - The direction to sort (1 for ascending, -1 for descending, 0 for original order).
+    */
     function sortTable(columnIndex, direction) {
       if (direction === 0) {
         table.append(...originalRowsOrder);
@@ -70,7 +83,12 @@ document.addEventListener('DOMContentLoaded', function () {
         table.append(...rows);
       }
     }
-
+    /**
+    * Updates the visual indicators for sorting direction on table headers.
+    * @param {NodeList} headers - A NodeList of all header elements in the table.
+    * @param {Element} selectedHeader - The header element that was clicked to trigger sorting.
+    * @param {number} direction - The current sorting direction: 1 for ascending, -1 for descending.
+    */
     function updateHeaderSortIndicators(headers, selectedHeader, direction) {
       headers.forEach(header => {
         header.classList.remove('sort-asc', 'sort-desc');
@@ -100,7 +118,13 @@ document.addEventListener('DOMContentLoaded', function () {
     [difficultySelect, cuisineSelect, mealSelect].forEach(select => {
       select.addEventListener('change', filterTable);
     });
-
+    /**
+    * Creates a dropdown menu for filtering options.
+    * @param {Array<string>} options - The options to include in the dropdown.
+    * @param {string} id - The ID to assign to the dropdown element.
+    * @param {string} placeholder - The placeholder text to display in the dropdown.
+    * @returns {Element} - The newly created select element.
+    */
     function createDropdown(options, id, placeholder) {
       const select = document.createElement('select');
       select.id = id;
@@ -109,6 +133,9 @@ document.addEventListener('DOMContentLoaded', function () {
       return select;
     }
 
+    /**
+    * Filters the recipes table based on selections from dropdowns for difficulty, cuisine, and meal type.
+    */
     function filterTable() {
       const difficulty = difficultySelect.value;
       const cuisine = cuisineSelect.value;
@@ -128,6 +155,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+/**
+ * Adds an ingredient dynamically to the list when the add button is clicked.
+ * It clones the current ingredients list and resets selection and input fields.
+ */
 function addIngredient() {
   var ingredientsList = document.getElementById('ingredientsList');
   var clonedIngredients = ingredientsList.cloneNode(true);
@@ -147,6 +178,10 @@ function addIngredient() {
   ingredientsList.parentNode.appendChild(clonedIngredients);
 }
 
+/**
+ * Searches for recipes by name and filters the table to only display matching entries.
+ * It compares the search input with the first column of each table row.
+ */
 function searchRecipe() {
   // Declare variables
   let input, filter, table, tr, td, i, txtValue;

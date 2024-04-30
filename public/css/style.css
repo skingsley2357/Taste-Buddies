@@ -214,7 +214,7 @@ header nav a {
 #filters select:focus {
   outline: none;
   border-color: var(--light-nav);
-  box-shadow: 0 0 5px rgba(230, 90, 90, 0.5);
+  box-shadow: 0 0 5px #e65a5a80;
 }
 
 #searchInput {

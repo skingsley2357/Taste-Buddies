@@ -1,19 +1,47 @@
 <?php
 
+/**
+ * Represents an IngredientName entity with properties and methods to manage ingredient data.
+ */
 class IngredientName extends DatabaseObject {
 
+  /**
+   * The database table name associated with the IngredientName class.
+   * @var string
+   */
   static protected $table_name = 'ingredient_name';
-  static protected $db_columns = ['Ingredient_name_id', 'ingredient'];
 
+  /**
+   * The database columns to be used with the IngredientName class.
+   * @var array
+   */
+  static protected $db_columns = ['Ingredient_name_id', 'ingredient'];
+  
+  /**
+   * The identifier for the ingredient.
+   * @var int
+   */
   public $Ingredient_name_id;
+
+  /**
+   * The name of the ingredient.
+   * @var string
+   */
   public $ingredient;
 
+  /**
+   * Constructor for the IngredientName class.
+   * @param int $Ingredient_name_id - The unique identifier of the ingredient.
+   * @param string $ingredient - The name of the ingredient.
+   */
   public function __construct($Ingredient_name_id, $ingredient) {
-    $this->Ingredient_name_id = $Ingredient_name_id;
-    $this->ingredient = $ingredient;
+      $this->Ingredient_name_id = $Ingredient_name_id;
+      $this->ingredient = $ingredient;
   }
 
-
+  /**
+   * List of ingredient options mapped by ingredient ID.
+   */
   public const INGREDIENT_OPTIONS = [
     1 => 'Onion',
     2 => 'Garlic',
@@ -107,6 +135,11 @@ class IngredientName extends DatabaseObject {
     90 => 'Peanuts',
   ];
 
+  /**
+   * Retrieves the ingredient name based on the ingredient ID.
+   * Returns 'Unknown' if the ingredient ID does not exist in the list.
+   * @return string - The name of the ingredient.
+   */
   public function ingredient() {
     if($this->Ingredient_name_id > 0) {
       return self::INGREDIENT_OPTIONS[$this->Ingredient_name_id];

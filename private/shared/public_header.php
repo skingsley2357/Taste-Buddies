@@ -18,6 +18,7 @@
         <ul id="navbar">
           <li><a href="<?php echo url_for('index.php'); ?>">Home</a></li>
           <li><a href="<?php echo url_for('about_us.php'); ?>">About Us</a></li>
+          <li><a href="<?php echo url_for('recipes/recipes.php'); ?>">Recipes</a></li>
           <?php if($session->is_logged_in()) { ?>
             <li><a href="<?php echo url_for('logout.php'); ?>">Logout, <?php echo $session->user_name; ?></a></li>
           <?php } else { ?>

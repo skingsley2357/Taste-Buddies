@@ -8,6 +8,8 @@
 
 
 <br>
+<input type="text" id="searchInput" onkeyup="searchRecipe()" placeholder="Search for recipes...">
+<br>
 <table id="recipes-table">
   <thead>
   <tr>
